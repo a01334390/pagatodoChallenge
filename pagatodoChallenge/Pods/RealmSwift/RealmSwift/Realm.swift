@@ -25,17 +25,18 @@ import Realm.Private
 
  Realms can either be stored on disk (see `init(path:)`) or in memory (see `Configuration`).
 
- `Realm` instances are cached internally, and constructing equivalent `Realm` objects (for example, by using the same
- path or identifier) produces limited overhead.
+ `Realm` instances are cached internally, and constructing equivalent `Realm` objects (for example,
+ by using the same path or identifier) produces limited overhead.
 
- If you specifically want to ensure a `Realm` instance is destroyed (for example, if you wish to open a Realm, check
- some property, and then possibly delete the Realm file and re-open it), place the code which uses the Realm within an
- `autoreleasepool {}` and ensure you have no other strong references to it.
+ If you specifically want to ensure a `Realm` instance is destroyed (for example, if you wish to
+ open a Realm, check some property, and then possibly delete the Realm file and re-open it), place
+ the code which uses the Realm within an `autoreleasepool {}` and ensure you have no other strong
+ references to it.
 
- - warning: `Realm` instances are not thread safe and cannot be shared across threads or dispatch queues. You must
- construct a new instance for each thread in which a Realm will be accessed. For dispatch queues, this means
- that you must construct a new instance in each block which is dispatched, as a queue is not guaranteed to
- run all of its blocks on the same thread.
+ - warning: Non-frozen `Realm` instances are thread confined and cannot be shared across threads or
+ dispatch queues. You must construct a new instance for each thread in which a Realm will be
+ accessed. For dispatch queues, this means that you must construct a new instance in each block
+ which is dispatched, as a queue is not guaranteed to run all of its blocks on the same thread.
  */
 public struct Realm {
 
@@ -529,7 +530,7 @@ public struct Realm {
 
      - parameter object: The object to be deleted.
      */
-    public func delete(_ object: Object) {
+    public func delete(_ object: ObjectBase) {
         RLMDeleteObjectFromRealm(object, rlmRealm)
     }
 
@@ -548,7 +549,7 @@ public struct Realm {
                             `Results<Object>`, or any other Swift `Sequence` whose
                             elements are `Object`s (subject to the caveats above).
      */
-    public func delete<S: Sequence>(_ objects: S) where S.Iterator.Element: Object {
+    public func delete<S: Sequence>(_ objects: S) where S.Iterator.Element: ObjectBase {
         for obj in objects {
             delete(obj)
         }
@@ -563,7 +564,7 @@ public struct Realm {
 
      :nodoc:
      */
-    public func delete<Element: Object>(_ objects: List<Element>) {
+    public func delete<Element: ObjectBase>(_ objects: List<Element>) {
         rlmRealm.deleteObjects(objects._rlmArray)
     }
 
@@ -576,7 +577,7 @@ public struct Realm {
 
      :nodoc:
      */
-    public func delete<Element: Object>(_ objects: Results<Element>) {
+    public func delete<Element: ObjectBase>(_ objects: Results<Element>) {
         rlmRealm.deleteObjects(objects.rlmResults)
     }
 
@@ -741,6 +742,62 @@ public struct Realm {
     @discardableResult
     public func refresh() -> Bool {
         return rlmRealm.refresh()
+    }
+
+    // MARK: Frozen Realms
+
+    /// Returns if this Realm is frozen.
+    public var isFrozen: Bool {
+        return rlmRealm.isFrozen
+    }
+
+    /**
+     Returns a frozen (immutable) snapshot of this Realm.
+
+     A frozen Realm is an immutable snapshot view of a particular version of a Realm's data. Unlike
+     normal Realm instances, it does not live-update to reflect writes made to the Realm, and can be
+     accessed from any thread. Writing to a frozen Realm is not allowed, and attempting to begin a
+     write transaction will throw an exception.
+
+     All objects and collections read from a frozen Realm will also be frozen.
+
+     - warning: Holding onto a frozen Realm for an extended period while performing write
+     transaction on the Realm may result in the Realm file growing to large sizes. See
+     `Realm.Configuration.maximumNumberOfActiveVersions` for more information.
+     */
+    public func freeze() -> Realm {
+        return isFrozen ? self : Realm(rlmRealm.freeze())
+    }
+
+    /**
+     Returns a frozen (immutable) snapshot of the given object.
+
+     The frozen copy is an immutable object which contains the same data as the given object
+     currently contains, but will not update when writes are made to the containing Realm. Unlike
+     live objects, frozen objects can be accessed from any thread.
+
+     - warning: Holding onto a frozen object for an extended period while performing write
+     transaction on the Realm may result in the Realm file growing to large sizes. See
+     `Realm.Configuration.maximumNumberOfActiveVersions` for more information.
+     */
+    public func freeze<T: ObjectBase>(_ obj: T) -> T {
+        return RLMObjectFreeze(obj) as! T
+    }
+
+    /**
+     Returns a frozen (immutable) snapshot of the given collection.
+
+     The frozen copy is an immutable collection which contains the same data as the given
+     collection currently contains, but will not update when writes are made to the containing
+     Realm. Unlike live collections, frozen collections can be accessed from any thread.
+
+     - warning: This method cannot be called during a write transaction, or when the Realm is read-only.
+     - warning: Holding onto a frozen collection for an extended period while performing write
+     transaction on the Realm may result in the Realm file growing to large sizes. See
+     `Realm.Configuration.maximumNumberOfActiveVersions` for more information.
+    */
+    public func freeze<Collection: RealmCollection>(_ collection: Collection) -> Collection {
+        return collection.freeze()
     }
 
     // MARK: Invalidation

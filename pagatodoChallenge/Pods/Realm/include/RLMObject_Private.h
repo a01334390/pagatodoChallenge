@@ -35,7 +35,7 @@ FOUNDATION_EXTERN void RLMInitializeWithValue(RLMObjectBase *, id, RLMSchema *);
 // shared schema for this class
 + (nullable RLMObjectSchema *)sharedSchema;
 
-+ (nullable NSArray<RLMProperty *> *)_getPropertiesWithInstance:(id)obj;
++ (nullable NSArray<RLMProperty *> *)_getProperties;
 + (bool)_realmIgnoreClass;
 
 @end
@@ -54,7 +54,8 @@ typedef void (^RLMObjectNotificationCallback)(NSArray<NSString *> *_Nullable pro
                                               NSArray *_Nullable oldValues,
                                               NSArray *_Nullable newValues,
                                               NSError *_Nullable error);
-FOUNDATION_EXTERN RLMNotificationToken *RLMObjectAddNotificationBlock(RLMObjectBase *obj, RLMObjectNotificationCallback block);
+FOUNDATION_EXTERN RLMNotificationToken *RLMObjectBaseAddNotificationBlock(RLMObjectBase *obj, RLMObjectNotificationCallback block);
+RLMNotificationToken *RLMObjectAddNotificationBlock(RLMObjectBase *obj, RLMObjectChangeBlock block);
 
 // Returns whether the class is a descendent of RLMObjectBase
 FOUNDATION_EXTERN BOOL RLMIsObjectOrSubclass(Class klass);
@@ -63,6 +64,8 @@ FOUNDATION_EXTERN BOOL RLMIsObjectOrSubclass(Class klass);
 FOUNDATION_EXTERN BOOL RLMIsObjectSubclass(Class klass);
 
 FOUNDATION_EXTERN const NSUInteger RLMDescriptionMaxDepth;
+
+FOUNDATION_EXTERN id RLMObjectFreeze(RLMObjectBase *obj) NS_RETURNS_RETAINED;
 
 @interface RLMManagedPropertyAccessor : NSObject
 + (void)initializeObject:(void *)object parent:(RLMObjectBase *)parent property:(RLMProperty *)property;

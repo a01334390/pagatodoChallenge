@@ -21,8 +21,11 @@
 
 #include "index_set.hpp"
 
+#include <realm/keys.hpp>
+
 #include <memory>
 #include <tuple>
+#include <unordered_map>
 #include <vector>
 
 namespace realm {
@@ -132,9 +135,6 @@ public:
 
     // Change information for a single field of a row
     struct ColumnInfo {
-        // The index of this column prior to the changes in the tracked
-        // transaction, or -1 for newly inserted columns.
-        size_t initial_column_index = -1;
         // What kind of change occurred?
         // Always Set or None for everything but LinkList columns.
         enum class Kind {
@@ -157,10 +157,9 @@ public:
     // The Realm parses the transaction log, and populates the `changes` vector
     // in each ObserverState with information about what changes were made.
     struct ObserverState {
-        // Initial table and row which is observed
-        // May be updated by row insertions and removals
-        size_t table_ndx;
-        size_t row_ndx;
+        // Table and row which is observed
+        realm::TableKey table_key;
+        int64_t obj_key;
 
         // Opaque userdata for the delegate's use
         void* info;
@@ -168,12 +167,12 @@ public:
         // Populated with information about which columns were changed
         // May be shorter than the actual number of columns if the later columns
         // are not modified
-        std::vector<ColumnInfo> changes;
+        std::unordered_map<int64_t, ColumnInfo> changes;
 
         // Simple lexographic ordering
         friend bool operator<(ObserverState const& lft, ObserverState const& rgt)
         {
-            return std::tie(lft.table_ndx, lft.row_ndx) < std::tie(rgt.table_ndx, rgt.row_ndx);
+            return std::tie(lft.table_key, lft.obj_key) < std::tie(rgt.table_key, rgt.obj_key);
         }
     };
 };

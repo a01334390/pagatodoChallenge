@@ -160,12 +160,14 @@ private func arrayType<T>(_ type: T.Type) -> RLMArray<AnyObject> {
     switch type {
     case is Int.Type, is Int8.Type, is Int16.Type, is Int32.Type, is Int64.Type:
         return RLMArray(objectType: .int, optional: true)
-    case is Bool.Type:   return RLMArray(objectType: .bool, optional: true)
-    case is Float.Type:  return RLMArray(objectType: .float, optional: true)
-    case is Double.Type: return RLMArray(objectType: .double, optional: true)
-    case is String.Type: return RLMArray(objectType: .string, optional: true)
-    case is Data.Type:   return RLMArray(objectType: .data, optional: true)
-    case is Date.Type:   return RLMArray(objectType: .date, optional: true)
+    case is Bool.Type:       return RLMArray(objectType: .bool, optional: true)
+    case is Float.Type:      return RLMArray(objectType: .float, optional: true)
+    case is Double.Type:     return RLMArray(objectType: .double, optional: true)
+    case is String.Type:     return RLMArray(objectType: .string, optional: true)
+    case is Data.Type:       return RLMArray(objectType: .data, optional: true)
+    case is Date.Type:       return RLMArray(objectType: .date, optional: true)
+    case is Decimal128.Type: return RLMArray(objectType: .decimal128, optional: true)
+    case is ObjectId.Type:   return RLMArray(objectType: .objectId, optional: true)
     default: fatalError("Unsupported type for List: \(type)?")
     }
 }
@@ -221,6 +223,18 @@ extension Data: RealmCollectionValue {
     /// :nodoc:
     public static func _rlmArray() -> RLMArray<AnyObject> {
         return RLMArray(objectType: .data, optional: false)
+    }
+}
+extension Decimal128: RealmCollectionValue {
+    /// :nodoc:
+    public static func _rlmArray() -> RLMArray<AnyObject> {
+        return RLMArray(objectType: .decimal128, optional: false)
+    }
+}
+extension ObjectId: RealmCollectionValue {
+    /// :nodoc:
+    public static func _rlmArray() -> RLMArray<AnyObject> {
+        return RLMArray(objectType: .objectId, optional: false)
     }
 }
 
@@ -371,7 +385,7 @@ public protocol RealmCollection: RealmCollectionBase, _RealmCollectionEnumerator
 
      - parameter property: The name of a property whose values should be summed.
      */
-    func average(ofProperty property: String) -> Double?
+    func average<T: AddableType>(ofProperty property: String) -> T?
 
 
     // MARK: Key-Value Coding
@@ -463,7 +477,48 @@ public protocol RealmCollection: RealmCollectionBase, _RealmCollectionEnumerator
 
     /// :nodoc:
     func _observe(_ block: @escaping (RealmCollectionChange<AnyRealmCollection<Element>>) -> Void) -> NotificationToken
+
+    // MARK: Frozen Objects
+
+    /// Returns if this collection is frozen
+    var isFrozen: Bool { get }
+
+    /**
+     Returns a frozen (immutable) snapshot of this collection.
+
+     The frozen copy is an immutable collection which contains the same data as this collection
+    currently contains, but will not update when writes are made to the containing Realm. Unlike
+    live collections, frozen collections can be accessed from any thread.
+
+     - warning: This method cannot be called during a write transaction, or when the containing
+    Realm is read-only.
+     - warning: Holding onto a frozen collection for an extended period while performing write
+     transaction on the Realm may result in the Realm file growing to large sizes. See
+     `Realm.Configuration.maximumNumberOfActiveVersions` for more information.
+    */
+    func freeze() -> Self
 }
+
+public extension RealmCollection {
+    /**
+     Returns the index of the first object matching the given predicate, or `nil` if no objects match.
+
+     - parameter predicateFormat: A predicate format string, optionally followed by a variable number of arguments.
+     */
+    func index(matching predicateFormat: String, _ args: Any...) -> Int? {
+        return index(matching: NSPredicate(format: predicateFormat, argumentArray: unwrapOptionals(in: args)))
+    }
+
+    /**
+     Returns a `Results` containing all objects matching the given predicate in the collection.
+
+     - parameter predicateFormat: A predicate format string, optionally followed by a variable number of arguments.
+     */
+    func filter(_ predicateFormat: String, _ args: Any...) -> Results<Element> {
+        return filter(NSPredicate(format: predicateFormat, argumentArray: unwrapOptionals(in: args)))
+    }
+}
+
 
 /// :nodoc:
 public protocol OptionalProtocol {
@@ -520,7 +575,7 @@ public extension RealmCollection where Element: AddableType {
     /**
      Returns the average of all of the values in the collection.
      */
-    func average() -> Double? {
+    func average<T: AddableType>() -> T? {
         return average(ofProperty: "self")
     }
 }
@@ -535,7 +590,7 @@ public extension RealmCollection where Element: OptionalProtocol, Element.Wrappe
     /**
      Returns the average of all of the values in the collection.
      */
-    func average() -> Double? {
+    func average<T: AddableType>() -> T? {
         return average(ofProperty: "self")
     }
 }
@@ -577,8 +632,6 @@ private class _AnyRealmCollectionBase<T: RealmCollectionValue>: AssistedObjectiv
     var description: String { fatalError() }
     func index(of object: Element) -> Int? { fatalError() }
     func index(matching predicate: NSPredicate) -> Int? { fatalError() }
-    func index(matching predicateFormat: String, _ args: Any...) -> Int? { fatalError() }
-    func filter(_ predicateFormat: String, _ args: Any...) -> Results<Element> { fatalError() }
     func filter(_ predicate: NSPredicate) -> Results<Element> { fatalError() }
     func sorted(byKeyPath keyPath: String, ascending: Bool) -> Results<Element> { fatalError() }
     func sorted<S: Sequence>(by sortDescriptors: S) -> Results<Element> where S.Iterator.Element == SortDescriptor {
@@ -587,7 +640,7 @@ private class _AnyRealmCollectionBase<T: RealmCollectionValue>: AssistedObjectiv
     func min<T: MinMaxType>(ofProperty property: String) -> T? { fatalError() }
     func max<T: MinMaxType>(ofProperty property: String) -> T? { fatalError() }
     func sum<T: AddableType>(ofProperty property: String) -> T { fatalError() }
-    func average(ofProperty property: String) -> Double? { fatalError() }
+    func average<T: AddableType>(ofProperty property: String) -> T? { fatalError() }
     subscript(position: Int) -> Element { fatalError() }
     func makeIterator() -> RLMIterator<T> { fatalError() }
     var startIndex: Int { fatalError() }
@@ -601,6 +654,8 @@ private class _AnyRealmCollectionBase<T: RealmCollectionValue>: AssistedObjectiv
     var bridged: (objectiveCValue: Any, metadata: Any?) { fatalError() }
     // swiftlint:disable:next identifier_name
     func _asNSFastEnumerator() -> Any { fatalError() }
+    var isFrozen: Bool { fatalError() }
+    func freeze() -> AnyRealmCollection<T> { fatalError() }
 }
 
 private final class _AnyRealmCollection<C: RealmCollection>: _AnyRealmCollectionBase<C.Element> {
@@ -623,15 +678,7 @@ private final class _AnyRealmCollection<C: RealmCollection>: _AnyRealmCollection
 
     override func index(matching predicate: NSPredicate) -> Int? { return base.index(matching: predicate) }
 
-    override func index(matching predicateFormat: String, _ args: Any...) -> Int? {
-        return base.index(matching: NSPredicate(format: predicateFormat, argumentArray: unwrapOptionals(in: args)))
-    }
-
     // MARK: Filtering
-
-    override func filter(_ predicateFormat: String, _ args: Any...) -> Results<C.Element> {
-        return base.filter(NSPredicate(format: predicateFormat, argumentArray: unwrapOptionals(in: args)))
-    }
 
     override func filter(_ predicate: NSPredicate) -> Results<C.Element> { return base.filter(predicate) }
 
@@ -661,7 +708,7 @@ private final class _AnyRealmCollection<C: RealmCollection>: _AnyRealmCollection
         return base.sum(ofProperty: property)
     }
 
-    override func average(ofProperty property: String) -> Double? {
+    override func average<T: AddableType>(ofProperty property: String) -> T? {
         return base.average(ofProperty: property)
     }
 
@@ -718,6 +765,14 @@ private final class _AnyRealmCollection<C: RealmCollection>: _AnyRealmCollection
 
     override var bridged: (objectiveCValue: Any, metadata: Any?) {
         return (base as! AssistedObjectiveCBridgeable).bridged
+    }
+
+    override var isFrozen: Bool {
+        return base.isFrozen
+    }
+
+    override func freeze() -> AnyRealmCollection<Element> {
+        return AnyRealmCollection(base.freeze())
     }
 }
 
@@ -781,25 +836,7 @@ public struct AnyRealmCollection<Element: RealmCollectionValue>: RealmCollection
      */
     public func index(matching predicate: NSPredicate) -> Int? { return base.index(matching: predicate) }
 
-    /**
-     Returns the index of the first object matching the given predicate, or `nil` if no objects match.
-
-     - parameter predicateFormat: A predicate format string, optionally followed by a variable number of arguments.
-     */
-    public func index(matching predicateFormat: String, _ args: Any...) -> Int? {
-        return base.index(matching: NSPredicate(format: predicateFormat, argumentArray: unwrapOptionals(in: args)))
-    }
-
     // MARK: Filtering
-
-    /**
-     Returns a `Results` containing all objects matching the given predicate in the collection.
-
-     - parameter predicateFormat: A predicate format string, optionally followed by a variable number of arguments.
-     */
-    public func filter(_ predicateFormat: String, _ args: Any...) -> Results<Element> {
-        return base.filter(NSPredicate(format: predicateFormat, argumentArray: unwrapOptionals(in: args)))
-    }
 
     /**
      Returns a `Results` containing all objects matching the given predicate in the collection.
@@ -889,7 +926,7 @@ public struct AnyRealmCollection<Element: RealmCollectionValue>: RealmCollection
 
      - parameter property: The name of a property whose average value should be calculated.
      */
-    public func average(ofProperty property: String) -> Double? { return base.average(ofProperty: property) }
+    public func average<T: AddableType>(ofProperty property: String) -> T? { return base.average(ofProperty: property) }
 
 
     // MARK: Sequence Support
@@ -1012,6 +1049,26 @@ public struct AnyRealmCollection<Element: RealmCollectionValue>: RealmCollection
     /// :nodoc:
     public func _observe(_ block: @escaping (RealmCollectionChange<AnyRealmCollection>) -> Void)
         -> NotificationToken { return base._observe(block) }
+
+    // MARK: Frozen Objects
+
+    /// Returns if this collection is frozen.
+    public var isFrozen: Bool { return base.isFrozen }
+
+    /**
+     Returns a frozen (immutable) snapshot of this collection.
+
+     The frozen copy is an immutable collection which contains the same data as this collection
+    currently contains, but will not update when writes are made to the containing Realm. Unlike
+    live collections, frozen collections can be accessed from any thread.
+
+     - warning: This method cannot be called during a write transaction, or when the containing
+    Realm is read-only.
+     - warning: Holding onto a frozen collection for an extended period while performing write
+     transaction on the Realm may result in the Realm file growing to large sizes. See
+     `Realm.Configuration.maximumNumberOfActiveVersions` for more information.
+    */
+    public func freeze() -> AnyRealmCollection { return base.freeze() }
 }
 
 // MARK: AssistedObjectiveCBridgeable

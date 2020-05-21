@@ -35,12 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 class CocoaSyncUserContext : public SyncUserContext {
 public:
-    void register_refresh_handle(const std::string& path, RLMSyncSessionRefreshHandle *handle);
-    void unregister_refresh_handle(const std::string& path);
-    void invalidate_all_handles();
-
-    RLMUserErrorReportingBlock error_handler() const;
-    void set_error_handler(RLMUserErrorReportingBlock);
 
 private:
     /**
@@ -52,20 +46,15 @@ private:
      */
     std::unordered_map<std::string, RLMSyncSessionRefreshHandle *> m_refresh_handles;
     std::mutex m_mutex;
-
-    /**
-     An optional callback invoked when the authentication server reports the user as
-     being in an expired state.
-     */
-    RLMUserErrorReportingBlock m_error_handler;
-    mutable std::mutex m_error_handler_mutex;
 };
 
 @interface RLMSyncUser ()
-- (instancetype)initWithSyncUser:(std::shared_ptr<SyncUser>)user;
-- (NSURL *)defaultRealmURL;
+- (instancetype)initWithSyncUser:(std::shared_ptr<SyncUser>)user app:(RLMApp *)app;
+- (NSString *)pathForPartitionValueHash:(NSUInteger)partitionValueHash;
 - (std::shared_ptr<SyncUser>)_syncUser;
 + (void)_setUpBindingContextFactory;
+@property (weak, readonly) RLMApp* app;
+
 @end
 
 NS_ASSUME_NONNULL_END
