@@ -64,6 +64,7 @@
 		BD28F3D82477294400180CBE /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		BD28F3DA2477297500180CBE /* SwiftUIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUIView+Extensions.swift"; sourceTree = "<group>"; };
 		BD28F3DD247737C600180CBE /* pagatodoChallenge.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = pagatodoChallenge.xcdatamodel; sourceTree = "<group>"; };
+		BD28F3DF247741D300180CBE /* pagatodoChallenge.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = pagatodoChallenge.entitlements; sourceTree = "<group>"; };
 		C7C0A09C62C799FCB029877E /* Pods-pagatodoChallenge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pagatodoChallenge.release.xcconfig"; path = "Target Support Files/Pods-pagatodoChallenge/Pods-pagatodoChallenge.release.xcconfig"; sourceTree = "<group>"; };
 		D2A886F49932F36D1B0FB827 /* Pods_pagatodoChallenge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pagatodoChallenge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E86373A9AA4058A91C195F2A /* Pods_pagatodoChallengeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pagatodoChallengeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,6 +123,7 @@
 		BD2120BE2475FE1800399EBF /* pagatodoChallenge */ = {
 			isa = PBXGroup;
 			children = (
+				BD28F3DF247741D300180CBE /* pagatodoChallenge.entitlements */,
 				BD2120EF2476328D00399EBF /* Extensions */,
 				BD2120E62475FE6900399EBF /* Controller */,
 				BD2120E52475FE6400399EBF /* View */,
@@ -538,6 +540,7 @@
 			baseConfigurationReference = B012921B67658D5804B095A6 /* Pods-pagatodoChallenge.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = pagatodoChallenge/pagatodoChallenge.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"pagatodoChallenge/Preview Content\"";
 				DEVELOPMENT_TEAM = R935X42Z66;
@@ -549,6 +552,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.martntn.pagatodoChallenge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -559,6 +563,7 @@
 			baseConfigurationReference = C7C0A09C62C799FCB029877E /* Pods-pagatodoChallenge.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = pagatodoChallenge/pagatodoChallenge.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"pagatodoChallenge/Preview Content\"";
 				DEVELOPMENT_TEAM = R935X42Z66;
@@ -570,6 +575,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.martntn.pagatodoChallenge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
