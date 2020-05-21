@@ -12,6 +12,7 @@ struct BankListView: View {
     //MARK: - Properties
     @ObservedObject var bankFeed = BankFeed()
     @State private var searchText: String = ""
+    var hapticImpact = UIImpactFeedbackGenerator(style: .light)
     
     //MARK: - Body
     var body: some View {
@@ -22,7 +23,12 @@ struct BankListView: View {
                 ForEach(self.bankFeed.filter {
                     self.searchText.isEmpty ? true : $0.bankName.lowercased().contains(self.searchText.lowercased())
                 }, id: \.self) { bank in
-                    Card(bank: bank)
+                    Button(action: {
+                        self.hapticImpact.impactOccurred()
+                    }) {
+                        Card(bank: bank)
+                    }
+                    
                 }
             }
         }

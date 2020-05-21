@@ -57,9 +57,6 @@ class BankFeed: ObservableObject, RandomAccessCollection {
     private func retrieveBanksFromRealm() {
         DataController.shared().retrieve { [weak self] banks in
             self?.appendBanksToPublisher(banks: banks)
-            #if DEBUG
-            UserDefaults.set(hasDataStored: false)
-            #endif
         }
     }
     

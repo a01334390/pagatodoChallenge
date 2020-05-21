@@ -30,8 +30,8 @@ struct Toast<Presenting>: View where Presenting: View {
                     }
                     .frame(width: geometry.size.width - 20,
                            height: geometry.size.height / 10)
-                    .background(Color.black)
-                    .foregroundColor(Color.white)
+                        .background(Color.secondary)
+                    .foregroundColor(Color.primary)
                     .cornerRadius(20)
                     .transition(.slide)
                     .opacity(self.isShowing ? 1 : 0)
