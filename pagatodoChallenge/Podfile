@@ -7,8 +7,8 @@ target 'pagatodoChallenge' do
 
   # Pods for pagatodoChallenge
   pod 'SDWebImageSwiftUI'
-  pod 'Realm' 
- plugin 'cocoapods-keys', {
+  pod 'RealmSwift'
+  plugin 'cocoapods-keys', {
   :project => "pagatodoChallenge",
   :keys => [
     "PagatodoURL",

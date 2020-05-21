@@ -6,10 +6,11 @@
 //  Copyright © 2020 Fernando Martin Garcia Del Angel. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import RealmSwift
 
 // MARK: - BankElement
-struct BankElement: Codable {
+class BankElement: Object, Codable {
     let bankName, bankDescription: String?
     let age: Int?
     let url: String?
