@@ -26,9 +26,9 @@ struct BankListView: View {
                     Button(action: {
                         self.hapticImpact.impactOccurred()
                     }) {
-                        Card(bank: bank)
+                       Card(bank: bank)
                     }
-                    
+                .buttonStyle(PlainButtonStyle())
                 }
             }
         }

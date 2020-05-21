@@ -53,17 +53,6 @@ struct Card: View {
             BadgeImage(imageURL: bank.url)
         }
         .frame(height: 200)
-//        ZStack {
-//            WebImage(url: URL(string: bank.url)!)
-//            .resizable()
-//            .placeholder(Image("defaultIMG"))
-//            .indicator(.activity)
-//            .transition(.fade)
-//            .frame(width: 100, height: 100, alignment: .center)
-//        }
-//        .frame(minWidth: 300, idealWidth: 350, maxWidth: 350, minHeight: 450, idealHeight: 500, maxHeight: 500, alignment: .center)
-//        .cornerRadius(15)
-//        .shadow(radius: 5)
     }
 }
 
@@ -80,7 +69,6 @@ struct BadgeImage: View {
             Spacer()
             WebImage(url: URL(string: imageURL)!)
             .resizable()
-            .placeholder(Image("defaultIMG"))
             .indicator(.activity)
             .transition(.fade)
             .frame(width: 100, height: 100, alignment: .center)
