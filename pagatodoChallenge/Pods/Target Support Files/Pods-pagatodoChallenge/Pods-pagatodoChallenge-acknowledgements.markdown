@@ -1,6 +1,10 @@
 # Acknowledgements
 This application makes use of the following third party libraries:
 
+## Keys
+
+MIT LICENSE Found in the repo
+
 ## SDWebImage
 
 Copyright (c) 2009-2018 Olivier Poitrey rs@dailymotion.com

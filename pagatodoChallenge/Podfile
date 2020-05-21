@@ -7,7 +7,12 @@ target 'pagatodoChallenge' do
 
   # Pods for pagatodoChallenge
   pod 'SDWebImageSwiftUI'
-  target 'pagatodoChallengeTests' do
+  plugin 'cocoapods-keys', {
+  :project => "pagatodoChallenge",
+  :keys => [
+    "PagatodoURL",
+  ]} 
+ target 'pagatodoChallengeTests' do
     inherit! :search_paths
     # Pods for testing
   end
