@@ -1,0 +1,495 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BD2120C02475FE1800399EBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120BF2475FE1800399EBF /* AppDelegate.swift */; };
+		BD2120C22475FE1800399EBF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120C12475FE1800399EBF /* SceneDelegate.swift */; };
+		BD2120C52475FE1800399EBF /* pagatodoChallenge.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BD2120C32475FE1800399EBF /* pagatodoChallenge.xcdatamodeld */; };
+		BD2120C72475FE1800399EBF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120C62475FE1800399EBF /* ContentView.swift */; };
+		BD2120C92475FE1900399EBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD2120C82475FE1900399EBF /* Assets.xcassets */; };
+		BD2120CC2475FE1900399EBF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD2120CB2475FE1900399EBF /* Preview Assets.xcassets */; };
+		BD2120CF2475FE1900399EBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD2120CD2475FE1900399EBF /* LaunchScreen.storyboard */; };
+		BD2120DA2475FE1900399EBF /* pagatodoChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120D92475FE1900399EBF /* pagatodoChallengeTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BD2120D62475FE1900399EBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BD2120B42475FE1700399EBF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BD2120BB2475FE1800399EBF;
+			remoteInfo = pagatodoChallenge;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BD2120BC2475FE1800399EBF /* pagatodoChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pagatodoChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD2120BF2475FE1800399EBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BD2120C12475FE1800399EBF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		BD2120C42475FE1800399EBF /* pagatodoChallenge.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = pagatodoChallenge.xcdatamodel; sourceTree = "<group>"; };
+		BD2120C62475FE1800399EBF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BD2120C82475FE1900399EBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BD2120CB2475FE1900399EBF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		BD2120CE2475FE1900399EBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		BD2120D02475FE1900399EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BD2120D52475FE1900399EBF /* pagatodoChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pagatodoChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD2120D92475FE1900399EBF /* pagatodoChallengeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pagatodoChallengeTests.swift; sourceTree = "<group>"; };
+		BD2120DB2475FE1900399EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BD2120B92475FE1800399EBF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BD2120D22475FE1900399EBF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BD2120B32475FE1700399EBF = {
+			isa = PBXGroup;
+			children = (
+				BD2120BE2475FE1800399EBF /* pagatodoChallenge */,
+				BD2120D82475FE1900399EBF /* pagatodoChallengeTests */,
+				BD2120BD2475FE1800399EBF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BD2120BD2475FE1800399EBF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BD2120BC2475FE1800399EBF /* pagatodoChallenge.app */,
+				BD2120D52475FE1900399EBF /* pagatodoChallengeTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BD2120BE2475FE1800399EBF /* pagatodoChallenge */ = {
+			isa = PBXGroup;
+			children = (
+				BD2120BF2475FE1800399EBF /* AppDelegate.swift */,
+				BD2120C12475FE1800399EBF /* SceneDelegate.swift */,
+				BD2120C62475FE1800399EBF /* ContentView.swift */,
+				BD2120C82475FE1900399EBF /* Assets.xcassets */,
+				BD2120CD2475FE1900399EBF /* LaunchScreen.storyboard */,
+				BD2120D02475FE1900399EBF /* Info.plist */,
+				BD2120C32475FE1800399EBF /* pagatodoChallenge.xcdatamodeld */,
+				BD2120CA2475FE1900399EBF /* Preview Content */,
+			);
+			path = pagatodoChallenge;
+			sourceTree = "<group>";
+		};
+		BD2120CA2475FE1900399EBF /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				BD2120CB2475FE1900399EBF /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		BD2120D82475FE1900399EBF /* pagatodoChallengeTests */ = {
+			isa = PBXGroup;
+			children = (
+				BD2120D92475FE1900399EBF /* pagatodoChallengeTests.swift */,
+				BD2120DB2475FE1900399EBF /* Info.plist */,
+			);
+			path = pagatodoChallengeTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BD2120BB2475FE1800399EBF /* pagatodoChallenge */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BD2120DE2475FE1900399EBF /* Build configuration list for PBXNativeTarget "pagatodoChallenge" */;
+			buildPhases = (
+				BD2120B82475FE1800399EBF /* Sources */,
+				BD2120B92475FE1800399EBF /* Frameworks */,
+				BD2120BA2475FE1800399EBF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pagatodoChallenge;
+			productName = pagatodoChallenge;
+			productReference = BD2120BC2475FE1800399EBF /* pagatodoChallenge.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BD2120D42475FE1900399EBF /* pagatodoChallengeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BD2120E12475FE1900399EBF /* Build configuration list for PBXNativeTarget "pagatodoChallengeTests" */;
+			buildPhases = (
+				BD2120D12475FE1900399EBF /* Sources */,
+				BD2120D22475FE1900399EBF /* Frameworks */,
+				BD2120D32475FE1900399EBF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BD2120D72475FE1900399EBF /* PBXTargetDependency */,
+			);
+			name = pagatodoChallengeTests;
+			productName = pagatodoChallengeTests;
+			productReference = BD2120D52475FE1900399EBF /* pagatodoChallengeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BD2120B42475FE1700399EBF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1140;
+				LastUpgradeCheck = 1140;
+				ORGANIZATIONNAME = "Fernando Martin Garcia Del Angel";
+				TargetAttributes = {
+					BD2120BB2475FE1800399EBF = {
+						CreatedOnToolsVersion = 11.4.1;
+					};
+					BD2120D42475FE1900399EBF = {
+						CreatedOnToolsVersion = 11.4.1;
+						TestTargetID = BD2120BB2475FE1800399EBF;
+					};
+				};
+			};
+			buildConfigurationList = BD2120B72475FE1700399EBF /* Build configuration list for PBXProject "pagatodoChallenge" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BD2120B32475FE1700399EBF;
+			productRefGroup = BD2120BD2475FE1800399EBF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BD2120BB2475FE1800399EBF /* pagatodoChallenge */,
+				BD2120D42475FE1900399EBF /* pagatodoChallengeTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BD2120BA2475FE1800399EBF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD2120CF2475FE1900399EBF /* LaunchScreen.storyboard in Resources */,
+				BD2120CC2475FE1900399EBF /* Preview Assets.xcassets in Resources */,
+				BD2120C92475FE1900399EBF /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BD2120D32475FE1900399EBF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BD2120B82475FE1800399EBF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD2120C52475FE1800399EBF /* pagatodoChallenge.xcdatamodeld in Sources */,
+				BD2120C02475FE1800399EBF /* AppDelegate.swift in Sources */,
+				BD2120C72475FE1800399EBF /* ContentView.swift in Sources */,
+				BD2120C22475FE1800399EBF /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BD2120D12475FE1900399EBF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD2120DA2475FE1900399EBF /* pagatodoChallengeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BD2120D72475FE1900399EBF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BD2120BB2475FE1800399EBF /* pagatodoChallenge */;
+			targetProxy = BD2120D62475FE1900399EBF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BD2120CD2475FE1900399EBF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BD2120CE2475FE1900399EBF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BD2120DC2475FE1900399EBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BD2120DD2475FE1900399EBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BD2120DF2475FE1900399EBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"pagatodoChallenge/Preview Content\"";
+				DEVELOPMENT_TEAM = R935X42Z66;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = pagatodoChallenge/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.martntn.pagatodoChallenge;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BD2120E02475FE1900399EBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"pagatodoChallenge/Preview Content\"";
+				DEVELOPMENT_TEAM = R935X42Z66;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = pagatodoChallenge/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.martntn.pagatodoChallenge;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BD2120E22475FE1900399EBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R935X42Z66;
+				INFOPLIST_FILE = pagatodoChallengeTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.martntn.pagatodoChallengeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pagatodoChallenge.app/pagatodoChallenge";
+			};
+			name = Debug;
+		};
+		BD2120E32475FE1900399EBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R935X42Z66;
+				INFOPLIST_FILE = pagatodoChallengeTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.martntn.pagatodoChallengeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pagatodoChallenge.app/pagatodoChallenge";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BD2120B72475FE1700399EBF /* Build configuration list for PBXProject "pagatodoChallenge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD2120DC2475FE1900399EBF /* Debug */,
+				BD2120DD2475FE1900399EBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BD2120DE2475FE1900399EBF /* Build configuration list for PBXNativeTarget "pagatodoChallenge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD2120DF2475FE1900399EBF /* Debug */,
+				BD2120E02475FE1900399EBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BD2120E12475FE1900399EBF /* Build configuration list for PBXNativeTarget "pagatodoChallengeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD2120E22475FE1900399EBF /* Debug */,
+				BD2120E32475FE1900399EBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BD2120C32475FE1800399EBF /* pagatodoChallenge.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BD2120C42475FE1800399EBF /* pagatodoChallenge.xcdatamodel */,
+			);
+			currentVersion = BD2120C42475FE1800399EBF /* pagatodoChallenge.xcdatamodel */;
+			path = pagatodoChallenge.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = BD2120B42475FE1700399EBF /* Project object */;
+}
