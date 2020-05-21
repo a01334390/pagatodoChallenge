@@ -17,11 +17,12 @@ struct BankListView: View {
     var body: some View {
         VStack {
             SearchBar(text: $searchText, placeholder: "Search for banks...")
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack (alignment: .center, spacing: 10) {
-                    ForEach(bankFeed.bankList,id: \.self) { bank in
-                        Card(bank: bank)
-                    }
+            Spacer()
+            List {
+                ForEach(self.bankFeed.filter {
+                    self.searchText.isEmpty ? true : $0.bankName.lowercased().contains(self.searchText.lowercased())
+                }, id: \.self) { bank in
+                    Card(bank: bank)
                 }
             }
         }

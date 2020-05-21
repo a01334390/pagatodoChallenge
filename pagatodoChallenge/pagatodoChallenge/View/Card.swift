@@ -13,48 +13,80 @@ struct Card: View {
     // MARK: - Properties
     var bank: BankElement
     
+    // MARK: - View Functions
+    private func getFoundationYear() -> String {
+        let date = Date()
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: date)
+        let yearOfFoundation = year - bank.age
+        return String(yearOfFoundation)
+    }
+    
     var body: some View {
-        ZStack {
-            WebImage(url: URL(string: bank.url)!)
-            .resizable()
-            .placeholder(Image("defaultIMG"))
-            .indicator(.activity)
-            .transition(.fade)
-            .scaledToFill()
-            Rectangle()
-                .foregroundColor(.clear)
-             .frame(minWidth: 100, idealWidth: 100, maxWidth: 100, minHeight: 100, idealHeight: 100, maxHeight: 100, alignment: .center)
-            VStack {
+        HStack {
+            VStack (alignment: .leading, spacing: 5) {
+                Spacer()
                 HStack {
-                    HStack {
-                        Image(systemName: "mappin.circle.fill")
-                            .foregroundColor(.white)
-                        Text(bank.bankName)
-                            .font(.largeTitle)
-                        .foregroundColor(.white)
-                        .fontWeight(.heavy)
-                    }.padding()
+                    Text(bank.bankName)
+                        .bold()
+                        .font(.title)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                    Spacer()
+                }
+                HStack {
+                    Text(bank.bankDescription)
+                        .bold()
+                        .font(.headline)
+                    Spacer()
+                }
+                HStack {
+                    Text("Fundada el \(getFoundationYear())")
+                        .bold()
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                    Spacer()
                 }
                 Spacer()
-                
-                Text(bank.bankDescription)
-                .font(.custom("Roboto", size: 30))
-                .fontWeight(.heavy)
-                .foregroundColor(.white)
-                .lineLimit(3)
-                
-                
             }
             .padding()
+            BadgeImage(imageURL: bank.url)
         }
-        .frame(minWidth: 300, idealWidth: 350, maxWidth: 350, minHeight: 450, idealHeight: 500, maxHeight: 600, alignment: .center)
-        .cornerRadius(15)
-        .shadow(radius: 5)
+        .frame(height: 200)
+//        ZStack {
+//            WebImage(url: URL(string: bank.url)!)
+//            .resizable()
+//            .placeholder(Image("defaultIMG"))
+//            .indicator(.activity)
+//            .transition(.fade)
+//            .frame(width: 100, height: 100, alignment: .center)
+//        }
+//        .frame(minWidth: 300, idealWidth: 350, maxWidth: 350, minHeight: 450, idealHeight: 500, maxHeight: 500, alignment: .center)
+//        .cornerRadius(15)
+//        .shadow(radius: 5)
     }
 }
 
 struct Card_Previews: PreviewProvider {
     static var previews: some View {
         Card(bank: BankElement(bankName: "Paga Todo", bankDescription: "Banco Paga Todo es Para Todos", age: 10, url: "https://public-liarla.s3.us-east-2.amazonaws.com/ico_pagatodo.png"))
+    }
+}
+
+struct BadgeImage: View {
+    var imageURL: String
+    var body: some View {
+        VStack {
+            Spacer()
+            WebImage(url: URL(string: imageURL)!)
+            .resizable()
+            .placeholder(Image("defaultIMG"))
+            .indicator(.activity)
+            .transition(.fade)
+            .frame(width: 100, height: 100, alignment: .center)
+            Spacer()
+        }
+        .padding(.leading, 10)
+        .padding(.trailing, 3)
     }
 }

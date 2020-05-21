@@ -78,7 +78,9 @@ class BankFeed: ObservableObject, RandomAccessCollection {
         appendBanksToPublisher(banks: banks)
         
         // Store the banks for future reference
-        DataController.shared().store(banks: banks)
+        DispatchQueue.main.async {
+            DataController.shared().store(banks: banks)
+        }
     }
     
     /**
@@ -86,12 +88,12 @@ class BankFeed: ObservableObject, RandomAccessCollection {
      - Parameter banks: An array of [Bank Elements]
      */
     private func appendBanksToPublisher(banks: [BankElement]) {
-        DispatchQueue.main.async { [weak self] in
-            self?.bankList.append(contentsOf: banks)
+        DispatchQueue.main.async { 
+            self.bankList.append(contentsOf: banks)
             if banks.count > 0 {
-                self?.logger(message: "Completed loading banks.")
+                self.logger(message: "Completed loading banks.")
             } else {
-                self?.logger(message: "An error occured while appending data.")
+                self.logger(message: "An error occured while appending data.")
             }
         }
     }
