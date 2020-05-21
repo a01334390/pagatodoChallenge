@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1509BAAB451F840AA39F2D5F /* Pods_pagatodoChallenge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2A886F49932F36D1B0FB827 /* Pods_pagatodoChallenge.framework */; };
 		51C0057341B0EA4D0406F4AB /* Pods_pagatodoChallengeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E86373A9AA4058A91C195F2A /* Pods_pagatodoChallengeTests.framework */; };
+		BD1E3B742476ECBE00616382 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1E3B732476ECBE00616382 /* UIImage+Extensions.swift */; };
 		BD2120C02475FE1800399EBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120BF2475FE1800399EBF /* AppDelegate.swift */; };
 		BD2120C22475FE1800399EBF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120C12475FE1800399EBF /* SceneDelegate.swift */; };
 		BD2120C72475FE1800399EBF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120C62475FE1800399EBF /* ContentView.swift */; };
@@ -21,6 +22,11 @@
 		BD2120EE24762D1700399EBF /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120ED24762D1700399EBF /* DataController.swift */; };
 		BD2120F1247632AB00399EBF /* UserDefaults+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120F0247632AB00399EBF /* UserDefaults+Extensions.swift */; };
 		BD2120F3247632B400399EBF /* Realm+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120F2247632B400399EBF /* Realm+Extensions.swift */; };
+		BD2120F52476372700399EBF /* SearchbarUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120F42476372700399EBF /* SearchbarUIView.swift */; };
+		BD2120F72476379A00399EBF /* BankListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120F62476379A00399EBF /* BankListView.swift */; };
+		BD2120F924763E7100399EBF /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120F824763E7100399EBF /* Card.swift */; };
+		BD28F3D92477294400180CBE /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD28F3D82477294400180CBE /* Toast.swift */; };
+		BD28F3DB2477297500180CBE /* SwiftUIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD28F3DA2477297500180CBE /* SwiftUIView+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +42,7 @@
 /* Begin PBXFileReference section */
 		7CEA382EBCBC564476045E43 /* Pods-pagatodoChallengeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pagatodoChallengeTests.debug.xcconfig"; path = "Target Support Files/Pods-pagatodoChallengeTests/Pods-pagatodoChallengeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B012921B67658D5804B095A6 /* Pods-pagatodoChallenge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pagatodoChallenge.debug.xcconfig"; path = "Target Support Files/Pods-pagatodoChallenge/Pods-pagatodoChallenge.debug.xcconfig"; sourceTree = "<group>"; };
+		BD1E3B732476ECBE00616382 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		BD2120BC2475FE1800399EBF /* pagatodoChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pagatodoChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2120BF2475FE1800399EBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD2120C12475FE1800399EBF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -52,6 +59,11 @@
 		BD2120ED24762D1700399EBF /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		BD2120F0247632AB00399EBF /* UserDefaults+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extensions.swift"; sourceTree = "<group>"; };
 		BD2120F2247632B400399EBF /* Realm+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Realm+Extensions.swift"; sourceTree = "<group>"; };
+		BD2120F42476372700399EBF /* SearchbarUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchbarUIView.swift; sourceTree = "<group>"; };
+		BD2120F62476379A00399EBF /* BankListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankListView.swift; sourceTree = "<group>"; };
+		BD2120F824763E7100399EBF /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		BD28F3D82477294400180CBE /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		BD28F3DA2477297500180CBE /* SwiftUIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUIView+Extensions.swift"; sourceTree = "<group>"; };
 		C7C0A09C62C799FCB029877E /* Pods-pagatodoChallenge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pagatodoChallenge.release.xcconfig"; path = "Target Support Files/Pods-pagatodoChallenge/Pods-pagatodoChallenge.release.xcconfig"; sourceTree = "<group>"; };
 		D2A886F49932F36D1B0FB827 /* Pods_pagatodoChallenge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pagatodoChallenge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E86373A9AA4058A91C195F2A /* Pods_pagatodoChallengeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pagatodoChallengeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,6 +165,10 @@
 			isa = PBXGroup;
 			children = (
 				BD2120C62475FE1800399EBF /* ContentView.swift */,
+				BD2120F42476372700399EBF /* SearchbarUIView.swift */,
+				BD2120F62476379A00399EBF /* BankListView.swift */,
+				BD2120F824763E7100399EBF /* Card.swift */,
+				BD28F3D82477294400180CBE /* Toast.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -171,6 +187,8 @@
 			children = (
 				BD2120F0247632AB00399EBF /* UserDefaults+Extensions.swift */,
 				BD2120F2247632B400399EBF /* Realm+Extensions.swift */,
+				BD1E3B732476ECBE00616382 /* UIImage+Extensions.swift */,
+				BD28F3DA2477297500180CBE /* SwiftUIView+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -354,14 +372,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD28F3D92477294400180CBE /* Toast.swift in Sources */,
 				BD2120EE24762D1700399EBF /* DataController.swift in Sources */,
+				BD2120F52476372700399EBF /* SearchbarUIView.swift in Sources */,
+				BD2120F72476379A00399EBF /* BankListView.swift in Sources */,
+				BD1E3B742476ECBE00616382 /* UIImage+Extensions.swift in Sources */,
 				BD2120F3247632B400399EBF /* Realm+Extensions.swift in Sources */,
+				BD28F3DB2477297500180CBE /* SwiftUIView+Extensions.swift in Sources */,
 				BD2120E82476007700399EBF /* BankElement.swift in Sources */,
 				BD2120F1247632AB00399EBF /* UserDefaults+Extensions.swift in Sources */,
 				BD2120C02475FE1800399EBF /* AppDelegate.swift in Sources */,
 				BD2120EA247604EF00399EBF /* BankFeed.swift in Sources */,
 				BD2120C72475FE1800399EBF /* ContentView.swift in Sources */,
 				BD2120C22475FE1800399EBF /* SceneDelegate.swift in Sources */,
+				BD2120F924763E7100399EBF /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

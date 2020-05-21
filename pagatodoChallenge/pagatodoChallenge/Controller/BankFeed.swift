@@ -12,7 +12,11 @@ import Keys
 class BankFeed: ObservableObject, RandomAccessCollection {
     // MARK: - Fundamental Properties
     typealias Element = BankElement
+    
+    // MARK: - Publishable Objects
     @Published var bankList = [BankElement]()
+    @Published var showMessage = String()
+    @Published var isShowing: Bool = false
     
     // MARK: - Random Access Collection elements
     var startIndex: Int { bankList.startIndex }
@@ -26,8 +30,6 @@ class BankFeed: ObservableObject, RandomAccessCollection {
         self.loadBankDetails()
     }
     
-    
-    
     /**
      Starts up the Bank Loading Details by using the encoded URL
      */
@@ -36,6 +38,7 @@ class BankFeed: ObservableObject, RandomAccessCollection {
         // Check if data was stored before
         if UserDefaults.hasDataStored {
             logger(message: "Data was previously stored")
+            self.showToast(withMessage: "Data retrieved from Realm")
             retrieveBanksFromRealm()
             return
         }
@@ -74,12 +77,16 @@ class BankFeed: ObservableObject, RandomAccessCollection {
             return
         }
         
+        // Show Toast Mesaage
+        self.showToast(withMessage: "Data retrieved from API")
+        
         let banks = parseBanksFromData(data: data)
         appendBanksToPublisher(banks: banks)
         
         // Store the banks for future reference
-        DataController.shared().store(banks: banks)
-        UserDefaults.set(hasDataStored: true)
+        DispatchQueue.main.async {
+            DataController.shared().store(banks: banks)
+        }
     }
     
     /**
@@ -87,12 +94,12 @@ class BankFeed: ObservableObject, RandomAccessCollection {
      - Parameter banks: An array of [Bank Elements]
      */
     private func appendBanksToPublisher(banks: [BankElement]) {
-        DispatchQueue.main.async { [weak self] in
-            self?.bankList.append(contentsOf: banks)
+        DispatchQueue.main.async { 
+            self.bankList.append(contentsOf: banks)
             if banks.count > 0 {
-                self?.logger(message: "Completed loading banks.")
+                self.logger(message: "Completed loading banks.")
             } else {
-                self?.logger(message: "An error occured while appending data.")
+                self.logger(message: "An error occured while appending data.")
             }
         }
     }
@@ -123,6 +130,14 @@ class BankFeed: ObservableObject, RandomAccessCollection {
      */
     private func logger(message: String) {
         print("[Bank Feed] - \(message)")
+    }
+    
+    private func showToast(withMessage message: String) {
+        showMessage = message
+        isShowing = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.isShowing = false
+        }
     }
     
 }
