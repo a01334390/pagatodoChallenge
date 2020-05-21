@@ -11,14 +11,14 @@ import Keys
 
 class BankFeed: ObservableObject, RandomAccessCollection {
     // MARK: - Fundamental Properties
-    typealias Element = Bank
-    @Published var bankList = [Bank]()
+    typealias Element = BankElement
+    @Published var bankList = [BankElement]()
     
     // MARK: - Random Access Collection elements
     var startIndex: Int { bankList.startIndex }
     var endIndex: Int { bankList.endIndex }
     
-    subscript(position: Int) -> Bank {
+    subscript(position: Int) -> BankElement {
         return bankList[position]
     }
     
@@ -26,17 +26,35 @@ class BankFeed: ObservableObject, RandomAccessCollection {
         self.loadBankDetails()
     }
     
-    // MARK: - Character Downloader Methods
+    
     
     /**
      Starts up the Bank Loading Details by using the encoded URL
      */
     private func loadBankDetails() {
+        
+        // Check if data was stored before
+        if UserDefaults.hasDataStored {
+            logger(message: "Data was previously stored")
+            retrieveBanksFromRealm()
+            return
+        }
+        
         if let url = URL(string: PagatodoChallengeKeys().pagatodoURL) {
             let task = URLSession.shared.dataTask(with: url,completionHandler: parseBanksFromResponse(data:response:error:))
             task.resume()
         }
     }
+    
+    //MARK: - Realm Download Methods
+    private func retrieveBanksFromRealm() {
+        DataController.shared().retrieve { [weak self] banks in
+            self?.appendBanksToPublisher(banks: banks)
+        }
+    }
+    
+    
+    // MARK: - Bank Elements Downloader Methods
     
     /**
      Parses bank elements from response
@@ -57,7 +75,18 @@ class BankFeed: ObservableObject, RandomAccessCollection {
         }
         
         let banks = parseBanksFromData(data: data)
+        appendBanksToPublisher(banks: banks)
         
+        // Store the banks for future reference
+        DataController.shared().store(banks: banks)
+        UserDefaults.set(hasDataStored: true)
+    }
+    
+    /**
+     Appends Banks response to the Publisher in this class
+     - Parameter banks: An array of [Bank Elements]
+     */
+    private func appendBanksToPublisher(banks: [BankElement]) {
         DispatchQueue.main.async { [weak self] in
             self?.bankList.append(contentsOf: banks)
             if banks.count > 0 {
@@ -66,18 +95,18 @@ class BankFeed: ObservableObject, RandomAccessCollection {
                 self?.logger(message: "An error occured while appending data.")
             }
         }
-        
     }
+    
     /**
      Parses bank elements from data
      - Note: An error can trigger the return of an empty array
      - Parameters:
      - data: Response as a Data Array in the URLSession.
      */
-    private func parseBanksFromData(data: Data) -> [Bank] {
-        var response: [Bank] = []
+    private func parseBanksFromData(data: Data) -> [BankElement] {
+        var response: Bank = []
         do {
-            response = try JSONDecoder().decode([Bank].self, from: data)
+            response = try JSONDecoder().decode(Bank.self, from: data)
         } catch {
             logger(message: error.localizedDescription)
             return []
