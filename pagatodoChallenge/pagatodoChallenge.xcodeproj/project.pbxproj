@@ -11,7 +11,6 @@
 		51C0057341B0EA4D0406F4AB /* Pods_pagatodoChallengeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E86373A9AA4058A91C195F2A /* Pods_pagatodoChallengeTests.framework */; };
 		BD2120C02475FE1800399EBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120BF2475FE1800399EBF /* AppDelegate.swift */; };
 		BD2120C22475FE1800399EBF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120C12475FE1800399EBF /* SceneDelegate.swift */; };
-		BD2120C52475FE1800399EBF /* pagatodoChallenge.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BD2120C32475FE1800399EBF /* pagatodoChallenge.xcdatamodeld */; };
 		BD2120C72475FE1800399EBF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120C62475FE1800399EBF /* ContentView.swift */; };
 		BD2120C92475FE1900399EBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD2120C82475FE1900399EBF /* Assets.xcassets */; };
 		BD2120CC2475FE1900399EBF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD2120CB2475FE1900399EBF /* Preview Assets.xcassets */; };
@@ -40,7 +39,6 @@
 		BD2120BC2475FE1800399EBF /* pagatodoChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pagatodoChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2120BF2475FE1800399EBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD2120C12475FE1800399EBF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		BD2120C42475FE1800399EBF /* pagatodoChallenge.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = pagatodoChallenge.xcdatamodel; sourceTree = "<group>"; };
 		BD2120C62475FE1800399EBF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BD2120C82475FE1900399EBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BD2120CB2475FE1900399EBF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -146,7 +144,6 @@
 		BD2120E42475FE5D00399EBF /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				BD2120C32475FE1800399EBF /* pagatodoChallenge.xcdatamodeld */,
 				BD2120E72476007700399EBF /* BankElement.swift */,
 			);
 			path = Model;
@@ -361,7 +358,6 @@
 				BD2120F3247632B400399EBF /* Realm+Extensions.swift in Sources */,
 				BD2120E82476007700399EBF /* BankElement.swift in Sources */,
 				BD2120F1247632AB00399EBF /* UserDefaults+Extensions.swift in Sources */,
-				BD2120C52475FE1800399EBF /* pagatodoChallenge.xcdatamodeld in Sources */,
 				BD2120C02475FE1800399EBF /* AppDelegate.swift in Sources */,
 				BD2120EA247604EF00399EBF /* BankFeed.swift in Sources */,
 				BD2120C72475FE1800399EBF /* ContentView.swift in Sources */,
@@ -632,19 +628,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		BD2120C32475FE1800399EBF /* pagatodoChallenge.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				BD2120C42475FE1800399EBF /* pagatodoChallenge.xcdatamodel */,
-			);
-			currentVersion = BD2120C42475FE1800399EBF /* pagatodoChallenge.xcdatamodel */;
-			path = pagatodoChallenge.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = BD2120B42475FE1700399EBF /* Project object */;
 }
