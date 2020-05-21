@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1509BAAB451F840AA39F2D5F /* Pods_pagatodoChallenge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2A886F49932F36D1B0FB827 /* Pods_pagatodoChallenge.framework */; };
+		51C0057341B0EA4D0406F4AB /* Pods_pagatodoChallengeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E86373A9AA4058A91C195F2A /* Pods_pagatodoChallengeTests.framework */; };
 		BD2120C02475FE1800399EBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120BF2475FE1800399EBF /* AppDelegate.swift */; };
 		BD2120C22475FE1800399EBF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120C12475FE1800399EBF /* SceneDelegate.swift */; };
 		BD2120C52475FE1800399EBF /* pagatodoChallenge.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BD2120C32475FE1800399EBF /* pagatodoChallenge.xcdatamodeld */; };
@@ -28,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7CEA382EBCBC564476045E43 /* Pods-pagatodoChallengeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pagatodoChallengeTests.debug.xcconfig"; path = "Target Support Files/Pods-pagatodoChallengeTests/Pods-pagatodoChallengeTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B012921B67658D5804B095A6 /* Pods-pagatodoChallenge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pagatodoChallenge.debug.xcconfig"; path = "Target Support Files/Pods-pagatodoChallenge/Pods-pagatodoChallenge.debug.xcconfig"; sourceTree = "<group>"; };
 		BD2120BC2475FE1800399EBF /* pagatodoChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pagatodoChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2120BF2475FE1800399EBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD2120C12475FE1800399EBF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -40,6 +44,10 @@
 		BD2120D52475FE1900399EBF /* pagatodoChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pagatodoChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2120D92475FE1900399EBF /* pagatodoChallengeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pagatodoChallengeTests.swift; sourceTree = "<group>"; };
 		BD2120DB2475FE1900399EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C7C0A09C62C799FCB029877E /* Pods-pagatodoChallenge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pagatodoChallenge.release.xcconfig"; path = "Target Support Files/Pods-pagatodoChallenge/Pods-pagatodoChallenge.release.xcconfig"; sourceTree = "<group>"; };
+		D2A886F49932F36D1B0FB827 /* Pods_pagatodoChallenge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pagatodoChallenge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E86373A9AA4058A91C195F2A /* Pods_pagatodoChallengeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pagatodoChallengeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F111BB56020A8EF1A9858DFD /* Pods-pagatodoChallengeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pagatodoChallengeTests.release.xcconfig"; path = "Target Support Files/Pods-pagatodoChallengeTests/Pods-pagatodoChallengeTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1509BAAB451F840AA39F2D5F /* Pods_pagatodoChallenge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,18 +63,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51C0057341B0EA4D0406F4AB /* Pods_pagatodoChallengeTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8EE5569D92CF1A69CC99A184 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D2A886F49932F36D1B0FB827 /* Pods_pagatodoChallenge.framework */,
+				E86373A9AA4058A91C195F2A /* Pods_pagatodoChallengeTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BD2120B32475FE1700399EBF = {
 			isa = PBXGroup;
 			children = (
 				BD2120BE2475FE1800399EBF /* pagatodoChallenge */,
 				BD2120D82475FE1900399EBF /* pagatodoChallengeTests */,
 				BD2120BD2475FE1800399EBF /* Products */,
+				C48DB53F9A8A46144F7131E3 /* Pods */,
+				8EE5569D92CF1A69CC99A184 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -81,13 +102,14 @@
 		BD2120BE2475FE1800399EBF /* pagatodoChallenge */ = {
 			isa = PBXGroup;
 			children = (
+				BD2120E62475FE6900399EBF /* Controller */,
+				BD2120E52475FE6400399EBF /* View */,
+				BD2120E42475FE5D00399EBF /* Model */,
 				BD2120BF2475FE1800399EBF /* AppDelegate.swift */,
 				BD2120C12475FE1800399EBF /* SceneDelegate.swift */,
-				BD2120C62475FE1800399EBF /* ContentView.swift */,
 				BD2120C82475FE1900399EBF /* Assets.xcassets */,
 				BD2120CD2475FE1900399EBF /* LaunchScreen.storyboard */,
 				BD2120D02475FE1900399EBF /* Info.plist */,
-				BD2120C32475FE1800399EBF /* pagatodoChallenge.xcdatamodeld */,
 				BD2120CA2475FE1900399EBF /* Preview Content */,
 			);
 			path = pagatodoChallenge;
@@ -110,6 +132,41 @@
 			path = pagatodoChallengeTests;
 			sourceTree = "<group>";
 		};
+		BD2120E42475FE5D00399EBF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BD2120C32475FE1800399EBF /* pagatodoChallenge.xcdatamodeld */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BD2120E52475FE6400399EBF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BD2120C62475FE1800399EBF /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BD2120E62475FE6900399EBF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		C48DB53F9A8A46144F7131E3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B012921B67658D5804B095A6 /* Pods-pagatodoChallenge.debug.xcconfig */,
+				C7C0A09C62C799FCB029877E /* Pods-pagatodoChallenge.release.xcconfig */,
+				7CEA382EBCBC564476045E43 /* Pods-pagatodoChallengeTests.debug.xcconfig */,
+				F111BB56020A8EF1A9858DFD /* Pods-pagatodoChallengeTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -117,9 +174,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BD2120DE2475FE1900399EBF /* Build configuration list for PBXNativeTarget "pagatodoChallenge" */;
 			buildPhases = (
+				CFC8C0EC9F06D2BDC04AE65C /* [CP] Check Pods Manifest.lock */,
 				BD2120B82475FE1800399EBF /* Sources */,
 				BD2120B92475FE1800399EBF /* Frameworks */,
 				BD2120BA2475FE1800399EBF /* Resources */,
+				69EC88DD2BA0F1DF59C1B75B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -134,6 +193,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BD2120E12475FE1900399EBF /* Build configuration list for PBXNativeTarget "pagatodoChallengeTests" */;
 			buildPhases = (
+				55140FDE150AFBAF2F56E050 /* [CP] Check Pods Manifest.lock */,
 				BD2120D12475FE1900399EBF /* Sources */,
 				BD2120D22475FE1900399EBF /* Frameworks */,
 				BD2120D32475FE1900399EBF /* Resources */,
@@ -205,6 +265,70 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		55140FDE150AFBAF2F56E050 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-pagatodoChallengeTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		69EC88DD2BA0F1DF59C1B75B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-pagatodoChallenge/Pods-pagatodoChallenge-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-pagatodoChallenge/Pods-pagatodoChallenge-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pagatodoChallenge/Pods-pagatodoChallenge-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CFC8C0EC9F06D2BDC04AE65C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-pagatodoChallenge-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BD2120B82475FE1800399EBF /* Sources */ = {
@@ -364,6 +488,7 @@
 		};
 		BD2120DF2475FE1900399EBF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B012921B67658D5804B095A6 /* Pods-pagatodoChallenge.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -384,6 +509,7 @@
 		};
 		BD2120E02475FE1900399EBF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C7C0A09C62C799FCB029877E /* Pods-pagatodoChallenge.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -404,6 +530,7 @@
 		};
 		BD2120E22475FE1900399EBF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7CEA382EBCBC564476045E43 /* Pods-pagatodoChallengeTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -426,6 +553,7 @@
 		};
 		BD2120E32475FE1900399EBF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F111BB56020A8EF1A9858DFD /* Pods-pagatodoChallengeTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
