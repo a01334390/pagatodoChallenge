@@ -12,7 +12,11 @@ import Keys
 class BankFeed: ObservableObject, RandomAccessCollection {
     // MARK: - Fundamental Properties
     typealias Element = BankElement
+    
+    // MARK: - Publishable Objects
     @Published var bankList = [BankElement]()
+    @Published var showMessage = String()
+    @Published var isShowing: Bool = false
     
     // MARK: - Random Access Collection elements
     var startIndex: Int { bankList.startIndex }
@@ -26,8 +30,6 @@ class BankFeed: ObservableObject, RandomAccessCollection {
         self.loadBankDetails()
     }
     
-    
-    
     /**
      Starts up the Bank Loading Details by using the encoded URL
      */
@@ -36,6 +38,7 @@ class BankFeed: ObservableObject, RandomAccessCollection {
         // Check if data was stored before
         if UserDefaults.hasDataStored {
             logger(message: "Data was previously stored")
+            self.showToast(withMessage: "Data retrieved from Realm")
             retrieveBanksFromRealm()
             return
         }
@@ -73,6 +76,9 @@ class BankFeed: ObservableObject, RandomAccessCollection {
             logger(message: "data was empty")
             return
         }
+        
+        // Show Toast Mesaage
+        self.showToast(withMessage: "Data retrieved from API")
         
         let banks = parseBanksFromData(data: data)
         appendBanksToPublisher(banks: banks)
@@ -124,6 +130,14 @@ class BankFeed: ObservableObject, RandomAccessCollection {
      */
     private func logger(message: String) {
         print("[Bank Feed] - \(message)")
+    }
+    
+    private func showToast(withMessage message: String) {
+        showMessage = message
+        isShowing = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.isShowing = false
+        }
     }
     
 }

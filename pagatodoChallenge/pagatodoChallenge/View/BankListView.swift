@@ -26,6 +26,7 @@ struct BankListView: View {
                 }
             }
         }
+        .toast(isShowing: $bankFeed.isShowing, text: Text(bankFeed.showMessage))
     }
 }
 
