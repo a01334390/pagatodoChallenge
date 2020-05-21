@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,6 +17,7 @@
 		BD2120CC2475FE1900399EBF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD2120CB2475FE1900399EBF /* Preview Assets.xcassets */; };
 		BD2120CF2475FE1900399EBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD2120CD2475FE1900399EBF /* LaunchScreen.storyboard */; };
 		BD2120DA2475FE1900399EBF /* pagatodoChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120D92475FE1900399EBF /* pagatodoChallengeTests.swift */; };
+		BD2120E82476007700399EBF /* BankElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2120E72476007700399EBF /* BankElement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		BD2120D52475FE1900399EBF /* pagatodoChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pagatodoChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2120D92475FE1900399EBF /* pagatodoChallengeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pagatodoChallengeTests.swift; sourceTree = "<group>"; };
 		BD2120DB2475FE1900399EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BD2120E72476007700399EBF /* BankElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankElement.swift; sourceTree = "<group>"; };
 		C7C0A09C62C799FCB029877E /* Pods-pagatodoChallenge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pagatodoChallenge.release.xcconfig"; path = "Target Support Files/Pods-pagatodoChallenge/Pods-pagatodoChallenge.release.xcconfig"; sourceTree = "<group>"; };
 		D2A886F49932F36D1B0FB827 /* Pods_pagatodoChallenge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pagatodoChallenge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E86373A9AA4058A91C195F2A /* Pods_pagatodoChallengeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pagatodoChallengeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				BD2120C32475FE1800399EBF /* pagatodoChallenge.xcdatamodeld */,
+				BD2120E72476007700399EBF /* BankElement.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -163,7 +166,6 @@
 				7CEA382EBCBC564476045E43 /* Pods-pagatodoChallengeTests.debug.xcconfig */,
 				F111BB56020A8EF1A9858DFD /* Pods-pagatodoChallengeTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -335,6 +337,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD2120E82476007700399EBF /* BankElement.swift in Sources */,
 				BD2120C52475FE1800399EBF /* pagatodoChallenge.xcdatamodeld in Sources */,
 				BD2120C02475FE1800399EBF /* AppDelegate.swift in Sources */,
 				BD2120C72475FE1800399EBF /* ContentView.swift in Sources */,
