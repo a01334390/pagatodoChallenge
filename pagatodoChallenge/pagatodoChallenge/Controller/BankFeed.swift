@@ -14,7 +14,11 @@ class BankFeed: ObservableObject, RandomAccessCollection {
     typealias Element = BankElement
     
     // MARK: - Publishable Objects
-    @Published var bankList = [BankElement]()
+    @Published var bankList: [BankElement] = [] {
+        willSet {
+            objectWillChange.send()
+        }
+    }
     @Published var showMessage = String()
     @Published var isShowing: Bool = false
     
@@ -53,6 +57,9 @@ class BankFeed: ObservableObject, RandomAccessCollection {
     private func retrieveBanksFromRealm() {
         DataController.shared().retrieve { [weak self] banks in
             self?.appendBanksToPublisher(banks: banks)
+            #if DEBUG
+            UserDefaults.set(hasDataStored: false)
+            #endif
         }
     }
     
@@ -133,11 +140,12 @@ class BankFeed: ObservableObject, RandomAccessCollection {
     }
     
     private func showToast(withMessage message: String) {
-        showMessage = message
-        isShowing = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            self?.isShowing = false
+        DispatchQueue.main.async { [weak self] in
+            self?.showMessage = message
+            self?.isShowing = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self?.isShowing = false
+            }
         }
     }
-    
 }

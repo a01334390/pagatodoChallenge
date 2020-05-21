@@ -55,4 +55,10 @@ class DataController : NSObject {
         let banks = realm.objects(BankElement.self).toArray(ofType: BankElement.self)
         completion(banks)
     }
+    
+    func deleteAll() {
+        try! realm.write {
+            realm.deleteAll()
+        }
+    }
 }
