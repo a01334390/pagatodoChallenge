@@ -79,7 +79,6 @@ class BankFeed: ObservableObject, RandomAccessCollection {
         
         // Store the banks for future reference
         DataController.shared().store(banks: banks)
-        UserDefaults.set(hasDataStored: true)
     }
     
     /**

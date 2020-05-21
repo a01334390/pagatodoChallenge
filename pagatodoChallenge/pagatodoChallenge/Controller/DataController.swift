@@ -12,7 +12,7 @@ import RealmSwift
 class DataController : NSObject {
     // MARK: - Shared Properties
     private static var sharedDC : DataController = {
-       return DataController()
+        return DataController()
     }()
     
     private let realm = try! Realm()
@@ -29,22 +29,21 @@ class DataController : NSObject {
      - Parameter bank: The [BankElement] to store in Realm
      */
     func store(bank: BankElement) {
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            try! self?.realm.write {
-                self?.realm.add(bank)
-            }
+        
+        try! realm.write {
+            realm.add(bank)
         }
+        
     }
     
     /**
-    Stores a series of [Bank Elements] in a Realm Database
-    - Parameter bank: The [BankElement] to store in Realm
-    */
+     Stores a series of [Bank Elements] in a Realm Database
+     - Parameter bank: The [BankElement] to store in Realm
+     */
     func store(banks: [BankElement]) {
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            try! self?.realm.write {
-                self?.realm.add(banks)
-            }
+        try! realm.write {
+            realm.add(banks)
+            UserDefaults.set(hasDataStored: true)
         }
     }
     
@@ -53,12 +52,7 @@ class DataController : NSObject {
      - Parameter completion: The [completion block] to return all results of that query
      */
     func retrieve(completion: @escaping ([BankElement]) -> ()) {
-        DispatchQueue.main.async { [weak self] in
-            if let banks = self?.realm.objects(BankElement.self).toArray(ofType: BankElement.self) {
-                completion(banks)
-            } else {
-                completion([])
-            }
-        }
+        let banks = realm.objects(BankElement.self).toArray(ofType: BankElement.self)
+        completion(banks)
     }
 }
