@@ -26,6 +26,18 @@
 #include <tuple>
 
 namespace realm {
+// FIXME: remove once we switch to C++ 17 where we can use std::apply
+namespace _apply_polyfill {
+template <class Tuple, class F, size_t... Is>
+constexpr auto apply_impl(Tuple&& t, F f, std::index_sequence<Is...>) {
+    return f(std::get<Is>(std::forward<Tuple>(t))...);
+}
+
+template <class Tuple, class F>
+constexpr auto apply(Tuple&& t, F f) {
+    return apply_impl(std::forward<Tuple>(t), f, std::make_index_sequence<std::tuple_size<Tuple>{}>{});
+}
+}
 
 namespace util {
 template <class F>
@@ -57,7 +69,7 @@ private:
             std::unique_lock<std::mutex> lock(m_state->m_mutex);
             while (!m_state->m_invocations.empty()) {
                 auto& tuple = m_state->m_invocations.front();
-                std::apply(m_state->m_func, std::move(tuple));
+                _apply_polyfill::apply(std::move(tuple), m_state->m_func);
                 m_state->m_invocations.pop();
             }
             m_state->m_signal.reset();

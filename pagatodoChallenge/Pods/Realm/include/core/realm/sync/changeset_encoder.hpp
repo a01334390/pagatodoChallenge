@@ -57,17 +57,11 @@ protected:
 private:
     template<class... Args>
     void append(Instruction::Type t, Args&&...);
-    template <class... Args>
-    void append_path_instr(Instruction::Type t, const Instruction::PathInstruction&, Args&&...);
     void append_string(StringBufferRange); // does not intern the string
     void append_bytes(const void*, size_t);
 
     template<class T> void append_int(T);
-    void append_value(const Instruction::PrimaryKey&);
-    void append_value(const Instruction::Payload&);
-    void append_value(const Instruction::Payload::Link&);
-    void append_value(Instruction::Payload::Type);
-    void append_value(const Instruction::Path&);
+    void append_payload(const Instruction::Payload&);
     void append_value(DataType);
     void append_value(bool);
     void append_value(uint8_t);
@@ -77,10 +71,8 @@ private:
     void append_value(float);
     void append_value(double);
     void append_value(InternString);
-    void append_value(GlobalKey);
+    void append_value(sync::ObjectID);
     void append_value(Timestamp);
-    void append_value(ObjectId);
-    void append_value(Decimal128);
 
     Buffer m_buffer;
     util::metered::map<std::string, uint32_t> m_intern_strings_rev;

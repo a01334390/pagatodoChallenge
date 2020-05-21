@@ -43,8 +43,8 @@ public class ListBase: RLMListBase {
  `List` is the container type in Realm used to define to-many relationships.
 
  Like Swift's `Array`, `List` is a generic type that is parameterized on the type it stores. This can be either an `Object`
- subclass or one of the following types: `Bool`, `Int`, `Int8`, `Int16`, `Int32`, `Int64`, `Float`, `Double`,
- `String`, `Data`, `Date`, `Decimal128`, and `ObjectId` (and their optional versions)
+ subclass or one of the following types: `Bool`, `Int`, `Int8`, `Int16`, `Int32`, `Int64`, `Float`, `Double`, `String`, `Data`,
+ and `Date` (and their optional versions)
 
  Unlike Swift's native collections, `List`s are reference types, and are only immutable if the Realm that manages them
  is opened as read-only.
@@ -94,6 +94,15 @@ public final class List<Element: RealmCollectionValue>: ListBase {
     */
     public func index(matching predicate: NSPredicate) -> Int? {
         return notFoundToNil(index: _rlmArray.indexOfObject(with: predicate))
+    }
+
+    /**
+     Returns the index of the first object in the list matching the predicate, or `nil` if no objects match.
+
+     - parameter predicateFormat: A predicate format string, optionally followed by a variable number of arguments.
+    */
+    public func index(matching predicateFormat: String, _ args: Any...) -> Int? {
+        return index(matching: NSPredicate(format: predicateFormat, argumentArray: unwrapOptionals(in: args)))
     }
 
     // MARK: Object Retrieval
@@ -155,6 +164,16 @@ public final class List<Element: RealmCollectionValue>: ListBase {
     }
 
     // MARK: Filtering
+
+    /**
+     Returns a `Results` containing all objects matching the given predicate in the list.
+
+     - parameter predicateFormat: A predicate format string, optionally followed by a variable number of arguments.
+    */
+    public func filter(_ predicateFormat: String, _ args: Any...) -> Results<Element> {
+        return Results<Element>(_rlmArray.objects(with: NSPredicate(format: predicateFormat,
+                                                              argumentArray: unwrapOptionals(in: args))))
+    }
 
     /**
      Returns a `Results` containing all objects matching the given predicate in the list.
@@ -241,7 +260,7 @@ public final class List<Element: RealmCollectionValue>: ListBase {
 
      - parameter property: The name of a property whose average value should be calculated.
      */
-    public func average<T: AddableType>(ofProperty property: String) -> T? {
+    public func average(ofProperty property: String) -> Double? {
         return _rlmArray.average(ofProperty: property).map(dynamicBridgeCast)
     }
 
@@ -420,16 +439,6 @@ public final class List<Element: RealmCollectionValue>: ListBase {
         }
     }
 
-    // MARK: Frozen Objects
-
-    public var isFrozen: Bool {
-        return _rlmArray.isFrozen
-    }
-
-    public func freeze() -> List {
-        return List(rlmArray: _rlmArray.freeze())
-    }
-
     // swiftlint:disable:next identifier_name
     @objc class func _unmanagedArray() -> RLMArray<AnyObject> {
         return Element._rlmArray()
@@ -463,7 +472,7 @@ extension List where Element: AddableType {
     /**
      Returns the average of the values in the list, or `nil` if the list is empty.
      */
-    public func average<T: AddableType>() -> T? {
+    public func average() -> Double? {
         return average(ofProperty: "self")
     }
 }
@@ -555,7 +564,6 @@ extension List: MutableCollection {
      - warning: This method may only be called during a write transaction.
      */
     public func removeFirst(_ number: Int = 1) {
-        throwForNegativeIndex(number)
         let count = Int(_rlmArray.count)
         guard number <= count else {
             throwRealmException("It is not possible to remove more objects (\(number)) from a list"
@@ -573,7 +581,6 @@ extension List: MutableCollection {
      - warning: This method may only be called during a write transaction.
      */
     public func removeLast(_ number: Int = 1) {
-        throwForNegativeIndex(number)
         let count = Int(_rlmArray.count)
         guard number <= count else {
             throwRealmException("It is not possible to remove more objects (\(number)) from a list"

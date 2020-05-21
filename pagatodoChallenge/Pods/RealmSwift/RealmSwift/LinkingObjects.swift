@@ -33,7 +33,7 @@ import Realm
  `LinkingObjects` can only be used as a property on `Object` models. Properties of this type must be declared as `let`
  and cannot be `dynamic`.
  */
-public struct LinkingObjects<Element: ObjectBase> where Element: RealmCollectionValue {
+public struct LinkingObjects<Element: Object> {
     /// The type of the objects represented by the linking objects.
     public typealias ElementType = Element
 
@@ -96,6 +96,16 @@ public struct LinkingObjects<Element: ObjectBase> where Element: RealmCollection
         return notFoundToNil(index: rlmResults.indexOfObject(with: predicate))
     }
 
+    /**
+     Returns the index of the first object matching the given predicate, or `nil` if no objects match.
+
+     - parameter predicateFormat: A predicate format string, optionally followed by a variable number of arguments.
+     */
+    public func index(matching predicateFormat: String, _ args: Any...) -> Int? {
+        return notFoundToNil(index: rlmResults.indexOfObject(with: NSPredicate(format: predicateFormat,
+                                                                               argumentArray: unwrapOptionals(in: args))))
+    }
+
     // MARK: Object Retrieval
 
     /**
@@ -148,6 +158,16 @@ public struct LinkingObjects<Element: ObjectBase> where Element: RealmCollection
     }
 
     // MARK: Filtering
+
+    /**
+     Returns a `Results` containing all objects matching the given predicate in the linking objects.
+
+     - parameter predicateFormat: A predicate format string, optionally followed by a variable number of arguments.
+     */
+    public func filter(_ predicateFormat: String, _ args: Any...) -> Results<Element> {
+        return Results(rlmResults.objects(with: NSPredicate(format: predicateFormat,
+                                                            argumentArray: unwrapOptionals(in: args))))
+    }
 
     /**
      Returns a `Results` containing all objects matching the given predicate in the linking objects.
@@ -302,35 +322,6 @@ public struct LinkingObjects<Element: ObjectBase> where Element: RealmCollection
         return rlmResults.addNotificationBlock { _, change, error in
             block(RealmCollectionChange.fromObjc(value: self, change: change, error: error))
         }
-    }
-
-    // MARK: Frozen Objects
-
-    /// Returns if this collection is frozen.
-    public var isFrozen: Bool { return self.rlmResults.isFrozen }
-
-    /**
-     Returns a frozen (immutable) snapshot of this collection.
-
-     The frozen copy is an immutable collection which contains the same data as this collection
-     currently contains, but will not update when writes are made to the containing Realm. Unlike
-     live collections, frozen collections can be accessed from any thread.
-
-     - warning: This method cannot be called during a write transaction, or when the containing
-     Realm is read-only.
-     - warning: Holding onto a frozen collection for an extended period while performing write
-     transaction on the Realm may result in the Realm file growing to large sizes. See
-     `Realm.Configuration.maximumNumberOfActiveVersions` for more information.
-     */
-    public func freeze() -> LinkingObjects {
-        return LinkingObjects(propertyName: propertyName, handle: handle?.freeze())
-    }
-
-    // MARK: Implementation
-
-    private init(propertyName: String, handle: RLMLinkingObjectsHandle?) {
-        self.propertyName = propertyName
-        self.handle = handle
     }
 
     internal var rlmResults: RLMResults<AnyObject> {

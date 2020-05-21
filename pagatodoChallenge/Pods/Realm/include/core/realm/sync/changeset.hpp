@@ -33,8 +33,14 @@ namespace sync {
 
 using InternStrings = util::metered::vector<StringBufferRange>;
 
-struct BadChangesetError : ExceptionWithBacktrace<std::runtime_error> {
-    using ExceptionWithBacktrace<std::runtime_error>::ExceptionWithBacktrace;
+struct BadChangesetError : ExceptionWithBacktrace<std::exception> {
+    const char* m_message;
+    BadChangesetError() : BadChangesetError("Bad changeset") {}
+    BadChangesetError(const char* msg) : m_message(msg) {}
+    const char* message() const noexcept override
+    {
+        return m_message;
+    }
 };
 
 struct Changeset {
@@ -64,14 +70,9 @@ struct Changeset {
     StringBufferRange get_intern_string(InternString) const noexcept;
     util::Optional<StringBufferRange> try_get_intern_string(InternString) const noexcept;
     util::Optional<StringData> try_get_string(StringBufferRange) const noexcept;
-    util::Optional<StringData> try_get_string(InternString) const noexcept;
     StringData get_string(StringBufferRange) const noexcept;
     StringData get_string(InternString) const noexcept;
     StringBufferRange append_string(StringData);
-
-    PrimaryKey get_key(const Instruction::PrimaryKey& value) const noexcept;
-    std::ostream& print_value(std::ostream& os, const Instruction::Payload& value) const noexcept;
-    std::ostream& print_path(std::ostream& os, const Instruction::Path& value) const noexcept;
 
     /// Mark the changeset as "dirty" (i.e. modified by the merge algorithm).
     void set_dirty(bool dirty = true) noexcept;
@@ -192,22 +193,66 @@ struct Changeset {
     /// untransformed changeset was produced.
     file_ident_type origin_file_ident = 0;
 
-    /// Compare for exact equality, including that interned strings have the
-    /// same integer values, and there is the same number of interned strings,
-    /// same topology of tombstones, etc.
-    bool operator==(const Changeset& that) const noexcept;
-    bool operator!=(const Changeset& that) const noexcept;
-
 private:
-    util::metered::vector<Instruction> m_instructions;
+    struct MultiInstruction {
+        util::metered::vector<Instruction> instructions;
+    };
+    static_assert(sizeof(MultiInstruction) <= Instruction::max_instruction_size, "Instruction::max_instruction_size too low");
+
+    // In order to achieve iterator semi-stability (just enough to be able to
+    // run the merge algorithm while maintaining a ChangesetIndex), a Changeset
+    // is really a list of lists. A Changeset is a vector of
+    // `InstructionContainer`s, and each `InstructionContainer` represents 0-N
+    // "real" instructions.
+    //
+    // As an optimization, there is a special case for when the
+    // `InstructionContainer` represents exactly 1 instruction, in which case it
+    // is represented inside the `InstructionContainer` without any additional
+    // allocations or indirections. The `InstructionContainer` derived from
+    // the `Instruction` struct, and co-opts the `type` field such that if the
+    // (invalid) value of `type` is 0xff, the contents of the `Instruction` are
+    // instead interpreted as an instance of `MultiInstruction`, which holds
+    // a vector of `Instruction`s.
+    //
+    // The size of the `MultiInstruction` may also be zero, in which case it is
+    // considered a "tombstone" - always as a result of a call to
+    // `Changeset::erase_stable()`. The potential existence of these tombstones
+    // is the reason that the value type of `Changeset::iterator` is
+    // `Instruction*`, rather than `Instruction&`.
+    //
+    // FIXME: It would be better if `Changeset::iterator::value_type` could be
+    // `util::Optional<Instruction&>`, but this is prevented by a bug in
+    // `util::Optional`.
+    struct InstructionContainer : Instruction {
+        InstructionContainer();
+        InstructionContainer(const Instruction& instr);
+        InstructionContainer(InstructionContainer&&) noexcept;
+        InstructionContainer(const InstructionContainer&);
+        ~InstructionContainer();
+        InstructionContainer& operator=(InstructionContainer&&) noexcept;
+        InstructionContainer& operator=(const InstructionContainer&);
+
+        bool is_multi() const noexcept;
+        void convert_to_multi();
+        void insert(size_t position, Instruction instr);
+        void erase(size_t position);
+        size_t size() const noexcept;
+        bool is_empty() const noexcept;
+
+        Instruction& at(size_t pos) noexcept;
+        const Instruction& at(size_t pos) const noexcept;
+
+        MultiInstruction& get_multi() noexcept;
+        const MultiInstruction& get_multi() const noexcept;
+    };
+
+    util::metered::vector<InstructionContainer> m_instructions;
     std::shared_ptr<StringBuffer> m_string_buffer;
     std::shared_ptr<InternStrings> m_strings;
     bool m_is_dirty = false;
 
     iterator const_iterator_to_iterator(const_iterator);
 };
-
-std::ostream& operator<<(std::ostream&, const Changeset& changeset);
 
 /// An iterator type that hides the implementation details of the support for
 /// iterator stability.
@@ -218,7 +263,7 @@ std::ostream& operator<<(std::ostream&, const Changeset& changeset);
 /// empty, and the position is zero, the iterator is pointing to a tombstone.
 template <bool is_const>
 struct Changeset::IteratorImpl {
-    using list_type = util::metered::vector<Instruction>;
+    using list_type = util::metered::vector<InstructionContainer>;
     using inner_iterator_type = std::conditional_t<is_const, list_type::const_iterator, list_type::iterator>;
 
     // reference_type is a pointer because we have no way to create a reference
@@ -342,31 +387,24 @@ struct Changeset::Range {
 struct Changeset::Reflector {
     struct Tracer {
         virtual void name(StringData) = 0;
-        virtual void field(StringData, InternString) = 0;
-        virtual void field(StringData, Instruction::Payload::Type) = 0;
-        virtual void field(StringData, const Instruction::PrimaryKey&) = 0;
-        virtual void field(StringData, const Instruction::Payload&) = 0;
-        virtual void field(StringData, const Instruction::Path&) = 0;
-        virtual void field(StringData, uint32_t) = 0;
-        virtual void set_changeset(const Changeset*) = 0;
+        virtual void field(StringData, StringData) = 0;
+        virtual void field(StringData, ObjectID) = 0;
+        virtual void field(StringData, int64_t) = 0;
+        virtual void field(StringData, double) = 0;
         virtual void after_each() {}
         virtual void before_each() {}
     };
 
-    Reflector(Tracer& tracer, const Changeset& changeset) :
-        m_tracer(tracer), m_changeset(changeset)
+    Reflector(Tracer& tracer, const Changeset& log) :
+        m_tracer(tracer), m_log(log)
     {}
 
     void visit_all() const;
 private:
     Tracer& m_tracer;
-    const Changeset& m_changeset;
+    const Changeset& m_log;
 
-    void table_instr(const Instruction::TableInstruction&) const;
-    void object_instr(const Instruction::ObjectInstruction&) const;
-    void path_instr(const Instruction::PathInstruction&) const;
-
-    friend struct Instruction;
+    friend struct Instruction; // permit access for visit()
 #define REALM_DEFINE_REFLECTOR_VISITOR(X) void operator()(const Instruction::X&) const;
     REALM_FOR_EACH_INSTRUCTION_TYPE(REALM_DEFINE_REFLECTOR_VISITOR)
 #undef REALM_DEFINE_REFLECTOR_VISITOR
@@ -378,23 +416,17 @@ struct Changeset::Printer : Changeset::Reflector::Tracer {
 
     // ChangesetReflector::Tracer interface:
     void name(StringData) final;
-    void field(StringData, InternString) final;
-    void field(StringData, Instruction::Payload::Type) final;
-    void field(StringData, const Instruction::PrimaryKey&) final;
-    void field(StringData, const Instruction::Payload&) final;
-    void field(StringData, const Instruction::Path&) final;
-    void field(StringData, uint32_t) final;
-    void set_changeset(const Changeset* changeset) final { m_changeset = changeset; }
+    void field(StringData, StringData) final;
+    void field(StringData, ObjectID) final;
+    void field(StringData, int64_t) final;
+    void field(StringData, double) final;
     void after_each() final;
 
 private:
     std::ostream& m_out;
     bool m_first = true;
-    const Changeset* m_changeset = nullptr;
     void pad_or_ellipsis(StringData, int width) const;
     void print_field(StringData name, std::string value);
-
-    std::string primary_key_to_string(const Instruction::PrimaryKey&);
 };
 #endif // REALM_DEBUG
 
@@ -491,14 +523,6 @@ inline util::Optional<StringData> Changeset::try_get_string(StringBufferRange ra
     if (range.offset + range.size > m_string_buffer->size())
         return util::none;
     return StringData{m_string_buffer->data() + range.offset, range.size};
-}
-
-inline util::Optional<StringData> Changeset::try_get_string(InternString str) const noexcept
-{
-    if (auto range = try_get_intern_string(str)) {
-        return try_get_string(*range);
-    }
-    return util::none;
 }
 
 inline StringData Changeset::get_string(StringBufferRange range) const noexcept
@@ -602,9 +626,63 @@ inline auto Changeset::const_iterator_to_iterator(const_iterator cpos) -> iterat
     return iterator{m_instructions.begin() + offset, cpos.m_pos};
 }
 
-inline bool Changeset::operator!=(const Changeset& that) const noexcept
+inline Changeset::InstructionContainer::~InstructionContainer()
 {
-    return !(*this == that);
+    if (is_multi()) {
+        get_multi().~MultiInstruction();
+    }
+    // Instruction subtypes are required to be POD-types (trivially
+    // destructible), and this is checked by a static_assert in
+    // instructions.hpp. Therefore, it is safe to do nothing if this is not a
+    // multi-instruction.
+}
+
+inline bool Changeset::InstructionContainer::is_multi() const noexcept
+{
+    return type == Type(InstrTypeMultiInstruction);
+}
+
+inline size_t Changeset::InstructionContainer::size() const noexcept
+{
+    if (is_multi())
+        return get_multi().instructions.size();
+    return 1;
+}
+
+inline bool Changeset::InstructionContainer::is_empty() const noexcept
+{
+    if (is_multi()) {
+        return get_multi().instructions.empty();
+    }
+    return false;
+}
+
+inline Instruction& Changeset::InstructionContainer::at(size_t pos) noexcept
+{
+    REALM_ASSERT(pos < size());
+    if (is_multi())
+        return get_multi().instructions[pos];
+    return *this;
+}
+
+inline const Instruction& Changeset::InstructionContainer::at(size_t pos) const noexcept
+{
+    REALM_ASSERT(pos < size());
+    if (is_multi())
+        return get_multi().instructions[pos];
+    return *this;
+}
+
+inline Changeset::MultiInstruction& Changeset::InstructionContainer::get_multi() noexcept
+{
+    REALM_ASSERT(is_multi());
+    return *reinterpret_cast<MultiInstruction*>(&m_storage);
+}
+
+inline const Changeset::MultiInstruction& Changeset::InstructionContainer::get_multi() const noexcept
+{
+    REALM_ASSERT(is_multi());
+    return *reinterpret_cast<const MultiInstruction*>(&m_storage);
 }
 
 } // namespace sync

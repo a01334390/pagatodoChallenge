@@ -44,16 +44,12 @@ import Realm.Private
  - `Bool`
  - `Date`, `NSDate`
  - `Data`, `NSData`
- - `Decimal128`
- - `ObjectId`
  - `@objc enum` which has been delcared as conforming to `RealmEnum`.
  - `RealmOptional<Value>` for optional numeric properties
  - `Object` subclasses, to model many-to-one relationships
- - `EmbeddedObject` subclasses, to model owning one-to-one relationships
  - `List<Element>`, to model many-to-many relationships
 
- `String`, `NSString`, `Date`, `NSDate`, `Data`, `NSData`, `Decimal128`, and `ObjectId`  properties
- can be declared as optional. `Object` and `EmbeddedObject` subclasses *must* be declared as optional.
+ `String`, `NSString`, `Date`, `NSDate`, `Data`, `NSData` and `Object` subclass properties can be declared as optional.
  `Int`, `Int8`, `Int16`, `Int32`, `Int64`, `Float`, `Double`, `Bool`,  enum, and `List` properties cannot.
  To store an optional number, use `RealmOptional<Int>`, `RealmOptional<Float>`, `RealmOptional<Double>`, or
  `RealmOptional<Bool>` instead, which wraps an optional numeric value. Lists cannot be optional at all.
@@ -72,7 +68,7 @@ import Realm.Private
  See our [Cocoa guide](http://realm.io/docs/cocoa) for more details.
  */
 @objc(RealmSwiftObject)
-open class Object: RLMObjectBase, RealmCollectionValue {
+open class Object: RLMObjectBase, ThreadConfined, RealmCollectionValue {
     /// :nodoc:
     public static func _rlmArray() -> RLMArray<AnyObject> {
         return RLMArray(objectClassName: className())
@@ -141,8 +137,8 @@ open class Object: RLMObjectBase, RealmCollectionValue {
      It is not considered part of the public API.
      :nodoc:
      */
-    public override final class func _getProperties() -> [RLMProperty] {
-        return ObjectUtil.getSwiftProperties(self)
+    public override final class func _getProperties(withInstance instance: Any) -> [RLMProperty] {
+        return ObjectUtil.getSwiftProperties(instance as! RLMObjectBase)
     }
 
     // MARK: Object Customization
@@ -246,7 +242,7 @@ open class Object: RLMObjectBase, RealmCollectionValue {
      - returns: A token which must be held for as long as you want updates to be delivered.
      */
     public func observe(_ block: @escaping (ObjectChange) -> Void) -> NotificationToken {
-        return RLMObjectBaseAddNotificationBlock(self, { names, oldValues, newValues, error in
+        return RLMObjectAddNotificationBlock(self, { names, oldValues, newValues, error in
             if let error = error {
                 block(.error(error as NSError))
                 return
@@ -301,36 +297,7 @@ open class Object: RLMObjectBase, RealmCollectionValue {
     public func isSameObject(as object: Object?) -> Bool {
         return RLMObjectBaseAreEqual(self, object)
     }
-
-
 }
-
-extension Object: ThreadConfined {
-    /**
-     Indicates if this object is frozen.
-
-     - see: `Object.freeze()`
-     */
-    public var isFrozen: Bool { return realm?.isFrozen ?? false }
-
-    /**
-     Returns a frozen (immutable) snapshot of this object.
-
-     The frozen copy is an immutable object which contains the same data as this
-     object currently contains, but will not update when writes are made to the
-     containing Realm. Unlike live objects, frozen objects can be accessed from any
-     thread.
-
-     - warning: Holding onto a frozen object for an extended period while performing write
-     transaction on the Realm may result in the Realm file growing to large sizes. See
-     `Realm.Configuration.maximumNumberOfActiveVersions` for more information.
-     - warning: This method can only be called on a managed object.
-     */
-    public func freeze() -> Self {
-        return realm!.freeze(self)
-    }
-}
-
 
 /**
  Information about a specific property which changed in an `Object` change notification.
@@ -581,20 +548,6 @@ extension NSDate: _ManagedPropertyType {
         prop.type = .date
     }
 }
-/// :nodoc:
-extension Decimal128: _ManagedPropertyType {
-    // swiftlint:disable:next identifier_name
-    public static func _rlmProperty(_ prop: RLMProperty) {
-        prop.type = .decimal128
-    }
-}
-/// :nodoc:
-extension ObjectId: _ManagedPropertyType {
-    // swiftlint:disable:next identifier_name
-    public static func _rlmProperty(_ prop: RLMProperty) {
-        prop.type = .objectId
-    }
-}
 
 /// :nodoc:
 extension Object: _ManagedPropertyType {
@@ -612,15 +565,6 @@ extension Object: _ManagedPropertyType {
 }
 
 /// :nodoc:
-extension EmbeddedObject: _ManagedPropertyType {
-    // swiftlint:disable:next identifier_name
-    public static func _rlmProperty(_ prop: RLMProperty) {
-        Object._rlmProperty(prop)
-        prop.objectClassName = className()
-    }
-}
-
-/// :nodoc:
 extension List: _ManagedPropertyType where Element: _ManagedPropertyType {
     // swiftlint:disable:next identifier_name
     public static func _rlmProperty(_ prop: RLMProperty) {
@@ -632,10 +576,10 @@ extension List: _ManagedPropertyType where Element: _ManagedPropertyType {
 }
 
 /// :nodoc:
-class LinkingObjectsAccessor<Element: ObjectBase>: RLMManagedPropertyAccessor where Element: RealmCollectionValue {
+class LinkingObjectsAccessor<Element: Object>: RLMManagedPropertyAccessor {
     @objc override class func initializeObject(_ ptr: UnsafeMutableRawPointer,
                                                parent: RLMObjectBase, property: RLMProperty) {
-        ptr.assumingMemoryBound(to: LinkingObjects<Element>.self).pointee.handle = RLMLinkingObjectsHandle(object: parent, property: property)
+        ptr.assumingMemoryBound(to: LinkingObjects.self).pointee.handle = RLMLinkingObjectsHandle(object: parent, property: property)
     }
     @objc override class func get(_ ptr: UnsafeMutableRawPointer) -> Any {
         return ptr.assumingMemoryBound(to: LinkingObjects<Element>.self).pointee
@@ -743,10 +687,10 @@ internal class ObjectUtil {
         }
     }
 
-    internal class func getSwiftProperties(_ cls: RLMObjectBase.Type) -> [RLMProperty] {
+    internal class func getSwiftProperties(_ object: RLMObjectBase) -> [RLMProperty] {
         _ = ObjectUtil.runOnce
 
-        let object = cls.init()
+        let cls = type(of: object)
 
         var indexedProperties: Set<String>!
         let columnNames = cls._realmColumnNames()

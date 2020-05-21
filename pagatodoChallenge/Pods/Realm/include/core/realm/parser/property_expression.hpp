@@ -30,47 +30,38 @@ struct PropertyExpression
 {
     Query &query;
     std::vector<KeyPathElement> link_chain;
-    ExpressionComparisonType comparison_type;
     DataType get_dest_type() const;
-    ColKey get_dest_col_key() const;
+    size_t get_dest_ndx() const;
     ConstTableRef get_dest_table() const;
     bool dest_type_is_backlink() const;
-    bool dest_type_is_list_of_primitives() const;
 
-    PropertyExpression(Query& q, std::vector<KeyPathElement>&& chain, ExpressionComparisonType type);
+    PropertyExpression(Query &q, const std::string &key_path_string, parser::KeyPathMapping& mapping);
 
-    LinkChain link_chain_getter() const;
+    Table* table_getter() const;
 
     template <typename RetType>
     auto value_of_type_for_query() const
     {
-        return this->link_chain_getter().template column<RetType>(get_dest_col_key());
+        return this->table_getter()->template column<RetType>(get_dest_ndx());
     }
 };
 
 inline DataType PropertyExpression::get_dest_type() const
 {
     REALM_ASSERT_DEBUG(link_chain.size() > 0);
-    REALM_ASSERT_DEBUG(link_chain.back().operation != KeyPathElement::KeyPathOperation::BacklinkCount);
-    return DataType(link_chain.back().col_key.get_type());
+    return link_chain.back().col_type;
 }
 
 inline bool PropertyExpression::dest_type_is_backlink() const
 {
     REALM_ASSERT_DEBUG(link_chain.size() > 0);
-    return link_chain.back().operation == KeyPathElement::KeyPathOperation::BacklinkTraversal;
+    return link_chain.back().is_backlink;
 }
 
-inline bool PropertyExpression::dest_type_is_list_of_primitives() const
+inline size_t PropertyExpression::get_dest_ndx() const
 {
     REALM_ASSERT_DEBUG(link_chain.size() > 0);
-    return link_chain.back().is_list_of_primitives();
-}
-
-inline ColKey PropertyExpression::get_dest_col_key() const
-{
-    REALM_ASSERT_DEBUG(link_chain.size() > 0);
-    return link_chain.back().col_key;
+    return link_chain.back().col_ndx;
 }
 
 inline ConstTableRef PropertyExpression::get_dest_table() const

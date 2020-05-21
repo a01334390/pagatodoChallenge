@@ -363,7 +363,7 @@ public:
         REALM_ASSERT(m_buffer == i.m_buffer);
         size_type i_1 = m_buffer->unwrap(m_index);
         size_type i_2 = i.m_buffer->unwrap(i.m_index);
-        return difference_type(size_type(i_1 - i_2));
+        return from_twos_compl<difference_type>(size_type(i_1 - i_2));
     }
 
     template<class V> bool operator==(const Iter<V>& i) const noexcept

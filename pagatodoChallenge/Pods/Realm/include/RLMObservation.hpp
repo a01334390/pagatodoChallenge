@@ -20,8 +20,10 @@
 
 #import "binding_context.hpp"
 
-#import <realm/obj.hpp>
+#import <realm/row.hpp>
 #import <realm/table.hpp>
+
+#import <unordered_map>
 
 @class RLMObjectBase, RLMRealm, RLMSchema, RLMProperty, RLMObjectSchema;
 class RLMClassInfo;
@@ -48,25 +50,25 @@ namespace realm {
 class RLMObservationInfo {
 public:
     RLMObservationInfo(id object);
-    RLMObservationInfo(RLMClassInfo &objectSchema, realm::ObjKey row, id object);
+    RLMObservationInfo(RLMClassInfo &objectSchema, std::size_t row, id object);
     ~RLMObservationInfo();
 
-    realm::ConstObj const& getRow() const {
+    realm::Row const& getRow() const {
         return row;
     }
 
-    NSString *columnName(realm::ColKey col) const noexcept;
+    NSString *columnName(size_t col) const noexcept;
 
     // Send willChange/didChange notifications to all observers for this object/row
     // Sends the array versions if indexes is non-nil, normal versions otherwise
     void willChange(NSString *key, NSKeyValueChange kind=NSKeyValueChangeSetting, NSIndexSet *indexes=nil) const;
     void didChange(NSString *key, NSKeyValueChange kind=NSKeyValueChangeSetting, NSIndexSet *indexes=nil) const;
 
-    bool isForRow(realm::ObjKey key) const {
-        return row.get_key() == key;
+    bool isForRow(size_t ndx) const {
+        return row && row.get_index() == ndx;
     }
 
-    void recordObserver(realm::Obj& row, RLMClassInfo *objectInfo, RLMObjectSchema *objectSchema, NSString *keyPath);
+    void recordObserver(realm::Row& row, RLMClassInfo *objectInfo, RLMObjectSchema *objectSchema, NSString *keyPath);
     void removeObserver();
     bool hasObservers() const { return observerCount > 0; }
 
@@ -92,7 +94,7 @@ private:
     RLMObservationInfo *prev = nullptr;
 
     // Row being observed
-    realm::ConstObj row;
+    realm::Row row;
     RLMClassInfo *objectSchema = nullptr;
 
     // Object doing the observing
@@ -108,7 +110,7 @@ private:
     // are added and so that they can still be accessed after row is detached
     NSMutableDictionary *cachedObjects;
 
-    void setRow(realm::Table const& table, realm::ObjKey newRow);
+    void setRow(realm::Table &table, size_t newRow);
 
     template<typename F>
     void forEach(F&& f) const {
@@ -138,44 +140,13 @@ private:
 // Get the the observation info chain for the given row
 // Will simply return info if it's non-null, and will search ojectSchema's array
 // for a matching one otherwise, and return null if there are none
-RLMObservationInfo *RLMGetObservationInfo(RLMObservationInfo *info, realm::ObjKey row, RLMClassInfo& objectSchema);
+RLMObservationInfo *RLMGetObservationInfo(RLMObservationInfo *info, size_t row, RLMClassInfo& objectSchema);
 
 // delete all objects from a single table with change notifications
 void RLMClearTable(RLMClassInfo &realm);
 
-class RLMObservationTracker {
-public:
-    RLMObservationTracker(RLMRealm *realm, bool trackDeletions=false);
-    ~RLMObservationTracker();
-
-    void trackDeletions();
-
-    void willChange(RLMObservationInfo *info, NSString *key,
-                    NSKeyValueChange kind=NSKeyValueChangeSetting,
-                    NSIndexSet *indexes=nil);
-    void didChange();
-
-private:
-    std::vector<std::vector<RLMObservationInfo *> *> _observedTables;
-    __unsafe_unretained RLMRealm const*_realm;
-    realm::Group& _group;
-    RLMObservationInfo *_info = nullptr;
-
-    NSString *_key;
-    NSKeyValueChange _kind = NSKeyValueChangeSetting;
-    NSIndexSet *_indexes;
-
-    struct Change {
-        RLMObservationInfo *info;
-        __unsafe_unretained NSString *property;
-        NSMutableIndexSet *indexes;
-    };
-    std::vector<Change> _changes;
-    std::vector<RLMObservationInfo *> _invalidated;
-
-    template<typename CascadeNotification>
-    void cascadeNotification(CascadeNotification const&);
-};
+// invoke the block, sending notifications for cascading deletes/link nullifications
+void RLMTrackDeletions(RLMRealm *realm, dispatch_block_t block);
 
 std::vector<realm::BindingContext::ObserverState> RLMGetObservedRows(RLMSchemaInfo const& schema);
 void RLMWillChange(std::vector<realm::BindingContext::ObserverState> const& observed, std::vector<void *> const& invalidated);

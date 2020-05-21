@@ -37,7 +37,6 @@ extension Int32: MinMaxType {}
 extension Int64: MinMaxType {}
 extension Date: MinMaxType {}
 extension NSDate: MinMaxType {}
-extension Decimal128: MinMaxType {}
 
 // MARK: AddableType
 
@@ -58,7 +57,6 @@ extension Int8: AddableType {}
 extension Int16: AddableType {}
 extension Int32: AddableType {}
 extension Int64: AddableType {}
-extension Decimal128: AddableType {}
 
 /**
  `Results` is an auto-updating container type in Realm returned from object queries.
@@ -132,6 +130,16 @@ public struct Results<Element: RealmCollectionValue>: Equatable {
         return notFoundToNil(index: rlmResults.indexOfObject(with: predicate))
     }
 
+    /**
+     Returns the index of the first object matching the predicate, or `nil` if no objects match.
+
+     - parameter predicateFormat: A predicate format string, optionally followed by a variable number of arguments.
+     */
+    public func index(matching predicateFormat: String, _ args: Any...) -> Int? {
+        return notFoundToNil(index: rlmResults.indexOfObject(with: NSPredicate(format: predicateFormat,
+                                                                               argumentArray: unwrapOptionals(in: args))))
+    }
+
     // MARK: Object Retrieval
 
     /**
@@ -184,6 +192,16 @@ public struct Results<Element: RealmCollectionValue>: Equatable {
     }
 
     // MARK: Filtering
+
+    /**
+     Returns a `Results` containing all objects matching the given predicate in the collection.
+
+     - parameter predicateFormat: A predicate format string, optionally followed by a variable number of arguments.
+     */
+    public func filter(_ predicateFormat: String, _ args: Any...) -> Results<Element> {
+        return Results<Element>(rlmResults.objects(with: NSPredicate(format: predicateFormat,
+                                                                     argumentArray: unwrapOptionals(in: args))))
+    }
 
     /**
      Returns a `Results` containing all objects matching the given predicate in the collection.
@@ -345,16 +363,6 @@ public struct Results<Element: RealmCollectionValue>: Equatable {
         return rlmResults.addNotificationBlock { _, change, error in
             block(RealmCollectionChange.fromObjc(value: self, change: change, error: error))
         }
-    }
-
-    // MARK: Frozen Objects
-
-    public var isFrozen: Bool {
-        return rlmResults.isFrozen
-    }
-
-    public func freeze() -> Results {
-        return Results(rlmResults.freeze())
     }
 }
 
