@@ -1,5 +1,8 @@
 PODS:
   - Keys (1.0.1)
+  - Realm (4.4.0):
+    - Realm/Headers (= 4.4.0)
+  - Realm/Headers (4.4.0)
   - SDWebImage (5.7.0):
     - SDWebImage/Core (= 5.7.0)
   - SDWebImage/Core (5.7.0)
@@ -8,10 +11,12 @@ PODS:
 
 DEPENDENCIES:
   - Keys (from `Pods/CocoaPodsKeys`)
+  - Realm
   - SDWebImageSwiftUI
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Realm
     - SDWebImage
     - SDWebImageSwiftUI
 
@@ -21,9 +26,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Keys: a576f4c9c1c641ca913a959a9c62ed3f215a8de9
+  Realm: e125f464884cda953ebefe70c671b75b03b81b9b
   SDWebImage: a99471f452bdfa0ca52ddf5b1adf2b61cab1d1eb
   SDWebImageSwiftUI: 3530ef646416babe79d09ba807264ade86e042d7
 
-PODFILE CHECKSUM: e5e43fec481e91cff74f3f370972d0a43c0563d7
+PODFILE CHECKSUM: 02b75597ff231ae0a2a87655d66c8ed928f7f033
 
 COCOAPODS: 1.7.5
